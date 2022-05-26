@@ -3,6 +3,7 @@ package com.anatame.flordia.presentation.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.anatame.flordia.databinding.ActivityMainBinding
+import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineRemote
 import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImpl
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
@@ -19,27 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.wvFlordiaWebView.apply {
             addWebRequestHandler(WebRequestHandlerImpl)
-            addWebEngineEventListener(object: WebEngineEventListener{
-                var startTime: Long = 0
-                var endTime: Long = 0
-
-                override fun pageStarted(): String? {
-                    startTime = System.currentTimeMillis()
-                    Timber.d("Page Started")
-
-                    return "js/movies.js"
-                }
-
-                override fun pageFinished(): String? {
-                    endTime = System.currentTimeMillis()
-                    val totalTime = endTime.minus(startTime)
-                    Timber.d("Page Finished")
-                    Timber.d("Total Time Taken: $totalTime")
-
-                    return "js/movies.js"
-                }
-
-            })
+            addWebEngineEventListener(WebEngineEventListenerImpl("js/movies.js", "js/movies.js"))
         }.loadUrl("https://fmovies.to/home")
 
         val remote = WebEngineRemote(binding.wvFlordiaWebView)
@@ -49,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             remote.startSearch(searchText)
         }
 
+        TODO("Add viewmodel and control status and events from there")
 
     }
 }
