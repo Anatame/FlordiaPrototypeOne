@@ -5,6 +5,7 @@ import android.os.ParcelFileDescriptor.open
 import android.system.Os.open
 import android.util.Log
 import android.webkit.*
+import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 import java.nio.channels.FileChannel.open
@@ -67,11 +68,11 @@ class FlordiaWebEngineClient(): WebViewClient() {
             input = view?.context?.assets?.open(scriptFile)
 
             // String-ify the script byte-array using BASE64 encoding !!!
-            val encoded = input?.bufferedReader().use{it?.readText()}
-            Log.d("javascirptFile", encoded.toString())
+            val encoded = input?.bufferedReader().use { it?.readText() }
+            Timber.d(encoded.toString())
             view?.evaluateJavascript(
                 encoded.toString()
-            ){}
+            ) {}
         } catch (e: IOException) {
             // TODO Auto-generated catch block
             e.printStackTrace()

@@ -31,9 +31,14 @@ object WebRequestHandlerImpl: WebRequestHandler {
     private fun handleNetworkRequest(request: WebResourceRequest?): WebResourceResponse? {
         return try {
             Timber.d("called for ${request?.url.toString()}")
-            if(request?.url.toString().endsWith(".list") || request?.url.toString().endsWith(".playlist") || request?.url.toString().endsWith(".m3u8")){
+            if(request?.url.toString().endsWith(".list") ||
+                request?.url.toString().endsWith(".playlist") ||
+                request?.url.toString().endsWith(".m3u8") ||
+                request?.url.toString().contains("embed")
+            ) {
                 Timber.d("play for ${request?.url.toString()}")
             }
+
 
             val newRequest = request?.requestHeaders?.toHeaders()?.let {
                 Request.Builder()

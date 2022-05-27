@@ -2,7 +2,6 @@ package com.anatame.flordia.presentation.widgets.flordia_web_view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.webkit.WebSettings
 import android.webkit.WebView
 
 class FlordiaWebEngine(
@@ -11,6 +10,7 @@ class FlordiaWebEngine(
 ): WebView(context, attrs) {
 
     private val flordiaWebEngineClient = FlordiaWebEngineClient()
+    private var flordiaWebAppInterface = FlordiaWebAppInterface(this.context, )
 
     init{
         setUpConfig()
@@ -22,6 +22,7 @@ class FlordiaWebEngine(
 
     fun addWebEngineEventListener(listener: WebEngineEventListener){
         flordiaWebEngineClient.webEngineEventListener = listener
+        flordiaWebAppInterface.webEngineEventListener = listener
     }
 
     private fun setUpConfig() {
@@ -33,6 +34,10 @@ class FlordiaWebEngine(
         settings.mediaPlaybackRequiresUserGesture = false
         settings.loadsImagesAutomatically = false
         settings.blockNetworkImage = true
+
+        addJavascriptInterface(
+            flordiaWebAppInterface,
+            "Android")
 
         webViewClient = flordiaWebEngineClient
     }

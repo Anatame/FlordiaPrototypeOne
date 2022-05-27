@@ -1,3 +1,7 @@
+function getHtml(){
+     Android.getHtml(document.body.innerHTML)
+};
+
 function startSearchFromHome(term){
      let form = $('form')[0];
      let inputText = form.children[0];
@@ -17,3 +21,5 @@ function startSearchOthers(term){
     inputText.dispatchEvent(new Event('keyup', { 'bubbles': true }));
     form.submit();
 };
+
+

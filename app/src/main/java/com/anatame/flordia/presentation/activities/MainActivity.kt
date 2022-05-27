@@ -2,12 +2,11 @@ package com.anatame.flordia.presentation.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineRemote
 import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImpl
-import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,9 +17,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        hideProgress()
+
         binding.wvFlordiaWebView.apply {
             addWebRequestHandler(WebRequestHandlerImpl)
-            addWebEngineEventListener(WebEngineEventListenerImpl("js/movies.js", "js/movies.js"))
+            addWebEngineEventListener(WebEngineEventListenerImpl(
+                startFunc,
+                endFunc,
+                "js/movies.js",
+                "js/movies.js")
+            )
         }.loadUrl("https://fmovies.to/home")
 
         val remote = WebEngineRemote(binding.wvFlordiaWebView)
@@ -30,7 +36,20 @@ class MainActivity : AppCompatActivity() {
             remote.startSearch(searchText)
         }
 
-        TODO("Add viewmodel and control status and events from there")
+        binding.btnGetHtml.setOnClickListener {
+            remote.getHtml()
+        }
+    }
 
+    private val startFunc: () -> Unit = {showProgress()}
+    private val endFunc: () -> Unit = {hideProgress()}
+
+
+    private fun showProgress(){
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
+    fun hideProgress(){
+        binding.progressCircular.visibility = View.INVISIBLE
     }
 }

@@ -13,6 +13,10 @@ class WebEngineRemote (
 
     }
 
+    fun getHtml() {
+        executeJS("getHtml()")
+    }
+
     private fun isAtHome(): Boolean = webEngine.url.toString().contains("home")
 
     private fun executeJS(js: String){
