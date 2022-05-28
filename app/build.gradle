@@ -68,7 +68,6 @@ dependencies {
     // Jsoup for Web page parsing
     implementation 'org.jsoup:jsoup:1.14.3'
 
-
     // okHttp for web requests
     implementation 'com.squareup.okhttp3:okhttp-dnsoverhttps:4.9.0'
 
