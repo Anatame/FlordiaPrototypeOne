@@ -25,7 +25,7 @@ class FlordiaWebEngineClient(): WebViewClient() {
         request: WebResourceRequest?
     ): WebResourceResponse? {
         return try {
-            webRequestHandler?.getWebResourceResponseForRequest(request)
+            webRequestHandler?.getWebResourceResponseForRequest(webEngineEventListener, request)
         } catch(e: Exception) {
             e.printStackTrace();
             null
@@ -37,7 +37,7 @@ class FlordiaWebEngineClient(): WebViewClient() {
             object : ServiceWorkerClient() {
                 override fun shouldInterceptRequest(request: WebResourceRequest?): WebResourceResponse? {
                     return try {
-                        webRequestHandler?.getWebResourceResponseForRequest(request)
+                        webRequestHandler?.getWebResourceResponseForRequest(webEngineEventListener, request)
                     } catch(e: Exception) {
                         e.printStackTrace();
                         null

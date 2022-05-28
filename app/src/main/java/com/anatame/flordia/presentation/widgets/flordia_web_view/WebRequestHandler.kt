@@ -4,5 +4,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 
 interface WebRequestHandler {
-    fun getWebResourceResponseForRequest(request: WebResourceRequest?): WebResourceResponse?
+    fun getWebResourceResponseForRequest(
+        webEngineEventListener: WebEngineEventListener?,
+        request: WebResourceRequest?)
+    : WebResourceResponse?
 }

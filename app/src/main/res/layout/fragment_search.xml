@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.search.SearchFragment">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_searchScreen"
         android:layout_width="match_parent"

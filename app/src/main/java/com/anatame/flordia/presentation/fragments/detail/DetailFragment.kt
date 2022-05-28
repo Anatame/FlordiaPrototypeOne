@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.anatame.flordia.databinding.FragmentDetailBinding
-import com.anatame.flordia.databinding.FragmentSearchBinding
+import com.anatame.flordia.presentation.activities.MainActivity
 
 class DetailFragment : Fragment(){
 
@@ -21,14 +21,25 @@ class DetailFragment : Fragment(){
     ): View {
         binding = FragmentDetailBinding.inflate(layoutInflater)
 
-        val movieItems = navArgs.detailFragmentArgs.movieItem
+        val movieItem = navArgs.detailFragmentArgs.movieItem
 
-        binding.textView.text = """
-            ${movieItems.title}
-            ${movieItems.type}
-            ${movieItems.source}
-            ${movieItems.thumbnail}
-        """.trimIndent()
+        (activity as MainActivity).loadMovieDetails(movieItem.source)
+
+        val viewModel = (activity as MainActivity).viewModel
+
+        viewModel.embedUrl.observe(viewLifecycleOwner){url ->
+            url?.let{
+
+            }
+        }
+
+
+//        binding.textView.text = """
+//            ${movieItem.title}
+//            ${movieItem.type}
+//            ${movieItem.source}
+//            ${movieItem.thumbnail}
+//        """.trimIndent()
 
         return binding.root
     }

@@ -3,6 +3,8 @@ package com.anatame.flordia.domain.managers.flordia_web_view
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import com.anatame.flordia.data.network.AppNetworkClient
+import com.anatame.flordia.presentation.widgets.flordia_web_view.FlordiaWebEngine
+import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebRequestHandler
 import com.anatame.flordia.utils.FilterList
 import okhttp3.Headers.Companion.toHeaders
@@ -14,10 +16,12 @@ import java.io.InputStream
 import java.nio.charset.Charset
 
 object WebRequestHandlerImpl: WebRequestHandler {
-    override fun getWebResourceResponseForRequest(request: WebResourceRequest?): WebResourceResponse? {
+    override fun getWebResourceResponseForRequest(
+        webEngineEventListener: WebEngineEventListener?,
+        request: WebResourceRequest?): WebResourceResponse? {
 
         return if(requestFilter(request?.url.toString()))
-            handleNetworkRequest(request)
+            handleNetworkRequest(webEngineEventListener, request)
         else {
             Timber.d("""Blocked:
                 Host: ${request?.url?.host}
@@ -28,17 +32,14 @@ object WebRequestHandlerImpl: WebRequestHandler {
         }
     }
 
-    private fun handleNetworkRequest(request: WebResourceRequest?): WebResourceResponse? {
+    private fun handleNetworkRequest(
+        webEngineEventListener: WebEngineEventListener?,
+        request: WebResourceRequest?): WebResourceResponse?
+    {
         return try {
             Timber.d("called for ${request?.url.toString()}")
-            if(request?.url.toString().endsWith(".list") ||
-                request?.url.toString().endsWith(".playlist") ||
-                request?.url.toString().endsWith(".m3u8") ||
-                request?.url.toString().contains("embed")
-            ) {
-                Timber.d("play for ${request?.url.toString()}")
-            }
 
+            handleEmbedUrlDetected(webEngineEventListener, request?.url.toString())
 
             val newRequest = request?.requestHeaders?.toHeaders()?.let {
                 Request.Builder()
@@ -49,17 +50,6 @@ object WebRequestHandlerImpl: WebRequestHandler {
 
             val response = newRequest?.let { AppNetworkClient.getClient().newCall(it).execute() }
 
-            response?.let {
-
-                Timber.d("""
-                    |
-                ${it.body?.contentType()?.let { "${it.type}/${it.subtype}" }}
-                ${it.body?.contentType()?.charset(Charset.defaultCharset())?.name()}
-                ${it.code}
-                "OK"
-                ${it.headers.toMap()}
-                """.trimIndent())
-            };
 
             webResourceResponseConstructor(response)
         } catch(e: Exception) {
@@ -103,4 +93,32 @@ object WebRequestHandlerImpl: WebRequestHandler {
         return WebResourceResponse("text/plain", "UTF-8", data)
     }
 
+    private fun handleEmbedUrlDetected(webEngineEventListener: WebEngineEventListener?, url: String){
+        if(url.contains("/e/")){
+            Timber.tag("EmbedUrl").d(url)
+            webEngineEventListener?.embedUrlDetected(url)
+        }
+    }
+
 }
+//            if(request?.url.toString().endsWith(".list") ||
+//                request?.url.toString().endsWith(".playlist") ||
+//                request?.url.toString().endsWith(".m3u8") ||
+//                request?.url.toString().contains("/e/")
+//            ) {
+//                Timber.d("play for ${request?.url.toString()}")
+//            }
+
+
+
+//            response?.let {
+//
+//                Timber.d("""
+//                    |
+//                ${it.body?.contentType()?.let { "${it.type}/${it.subtype}" }}
+//                ${it.body?.contentType()?.charset(Charset.defaultCharset())?.name()}
+//                ${it.code}
+//                "OK"
+//                ${it.headers.toMap()}
+//                """.trimIndent())
+//            };

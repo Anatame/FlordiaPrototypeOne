@@ -6,4 +6,5 @@ import com.anatame.flordia.domain.models.MovieItem
 
 class MainActivityViewModel: ViewModel() {
     val searchMovieItems: MutableLiveData<List<MovieItem>?> = MutableLiveData(null)
+    val embedUrl: MutableLiveData<String?> = MutableLiveData(null)
 }

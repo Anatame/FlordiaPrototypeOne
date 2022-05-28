@@ -4,4 +4,5 @@ interface WebEngineEventListener {
     fun pageStarted(): String?
     fun pageFinished(): String?
     fun getHTML(html: String)
+    fun embedUrlDetected(url: String)
 }

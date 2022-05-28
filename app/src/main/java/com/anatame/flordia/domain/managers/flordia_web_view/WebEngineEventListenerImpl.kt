@@ -10,6 +10,7 @@ class WebEngineEventListenerImpl(
     private val startFunc: () -> Unit,
     private val endFunc: ()-> Unit,
     private val getMovieList: (List<MovieItem>)-> Unit,
+    private val getEmbedUrl: (String)-> Unit,
     private val script: String? = null,
 ): WebEngineEventListener {
     var startTime: Long = 0
@@ -36,6 +37,10 @@ class WebEngineEventListenerImpl(
         Timber.d(movieList.toString())
         Timber.d(movieList.size.toString())
         getMovieList(movieList)
+    }
+
+    override fun embedUrlDetected(url: String) {
+        getEmbedUrl(url)
     }
 
 }
