@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 "js/movies.js",
                 "js/movies.js")
             )
-        }.loadUrl("https://fmovies.to/home")
+        }.loadUrl("https://fmovies.to/")
 
         val remote = WebEngineRemote(binding.wvFlordiaWebView)
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         binding.progressCircular.visibility = View.VISIBLE
     }
 
-    fun hideProgress(){
+    private fun hideProgress(){
         binding.progressCircular.visibility = View.INVISIBLE
     }
 }

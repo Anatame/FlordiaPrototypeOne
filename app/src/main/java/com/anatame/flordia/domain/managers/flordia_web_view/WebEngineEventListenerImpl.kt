@@ -1,5 +1,6 @@
 package com.anatame.flordia.domain.managers.flordia_web_view
 
+import com.anatame.flordia.domain.parsers.Parser
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import timber.log.Timber
@@ -30,7 +31,8 @@ class WebEngineEventListenerImpl(
     }
 
     override fun getHTML(html: String) {
-        Timber.d(html)
+        Timber.d(Parser.getSearchItems(html).toString())
+        Timber.d(Parser.getSearchItems(html).size.toString())
     }
 
 }

@@ -29,5 +29,4 @@ object AppNetworkClient {
             .dns(dns)
             .build()
     }
-
 }
