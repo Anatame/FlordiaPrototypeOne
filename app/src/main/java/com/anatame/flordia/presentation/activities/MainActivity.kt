@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGetHtml.setOnClickListener {
             remote.getHtml()
+            remote.getMovieList()
         }
 
         binding.btnGetServers.setOnClickListener {

@@ -22,6 +22,45 @@ function startSearchOthers(term){
     form.submit();
 };
 
+function getMovieList(){
+    const movieList = [];
+    Array.from($(".filmlist")[0].children)
+        .filter(e => {
+            return !Array.from(e.classList).includes("clearfix")
+        })
+        .forEach(e => {
+
+            const movieItem = {
+                thumbnail: "",
+                title: "",
+                type: "",
+                source: ""
+            };
+
+            const thumbnail = e.querySelector('img').getAttribute('src');
+            const title = e.querySelectorAll('a')[1].innerText;
+
+            let type = '';
+            if(e.querySelector('.type').innerText.includes('TV')){
+                type = 'TV';
+            }
+            else{
+                type = 'MOVIE';
+            }
+
+            const source = e.querySelectorAll('a')[1].getAttribute('href');
+
+            movieItem.thumbnail = thumbnail;
+            movieItem.title = title;
+            movieItem.type = type;
+            movieItem.source = source;
+
+            movieList.push(movieItem);
+        });
+
+    Android.getMovieList(JSON.stringify(movieList))
+}
+
 function getServers(){
     let servers = [];
     Array.from($('#servers')[0].children).forEach(e => {
