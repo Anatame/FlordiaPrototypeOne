@@ -17,6 +17,14 @@ class WebEngineRemote (
         executeJS("getHtml()")
     }
 
+    fun getServers(){
+        executeJS("getServers()")
+    }
+
+    fun getSeasonsAndEpisodes() {
+        executeJS("getSeasonsAndEpisodes()")
+    }
+
     private fun isAtHome(): Boolean = webEngine.url.toString().contains("home")
 
     private fun executeJS(js: String){

@@ -29,10 +29,9 @@ class DetailFragment : Fragment(){
 
         viewModel.embedUrl.observe(viewLifecycleOwner){url ->
             url?.let{
-
+                binding.textView.text = it
             }
         }
-
 
 //        binding.textView.text = """
 //            ${movieItem.title}

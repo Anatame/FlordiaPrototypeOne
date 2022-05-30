@@ -13,8 +13,16 @@ import java.nio.channels.Pipe.open
 
 class FlordiaWebEngineClient(): WebViewClient() {
 
-    var webRequestHandler: WebRequestHandler? = null
+    var webRequestHandler: WebRequestHandler? = DefaultWebRequestHandler()
+        set(value) {
+            value?.webEngineEventListener = webEngineEventListener
+            field = value
+        }
     var webEngineEventListener: WebEngineEventListener? = null
+        set(value) {
+            webRequestHandler?.webEngineEventListener = value
+            field = value
+        }
 
     init {
         setUpServiceWorkerHandler()
@@ -25,7 +33,7 @@ class FlordiaWebEngineClient(): WebViewClient() {
         request: WebResourceRequest?
     ): WebResourceResponse? {
         return try {
-            webRequestHandler?.getWebResourceResponseForRequest(webEngineEventListener, request)
+            webRequestHandler?.getWebResourceResponseForRequest(request)
         } catch(e: Exception) {
             e.printStackTrace();
             null
@@ -37,7 +45,8 @@ class FlordiaWebEngineClient(): WebViewClient() {
             object : ServiceWorkerClient() {
                 override fun shouldInterceptRequest(request: WebResourceRequest?): WebResourceResponse? {
                     return try {
-                        webRequestHandler?.getWebResourceResponseForRequest(webEngineEventListener, request)
+                        Timber.tag("fromServiceWorker").d(request?.url.toString())
+                        webRequestHandler?.getWebResourceResponseForRequest(request)
                     } catch(e: Exception) {
                         e.printStackTrace();
                         null
@@ -78,5 +87,9 @@ class FlordiaWebEngineClient(): WebViewClient() {
             e.printStackTrace()
         }
     }
+
+}
+
+class DefaultWebRequestHandler: WebRequestHandler(){
 
 }

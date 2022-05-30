@@ -1,9 +1,12 @@
 package com.anatame.flordia.presentation.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineRemote
@@ -11,6 +14,8 @@ import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImp
 import com.anatame.flordia.domain.models.MovieItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.FlordiaWebEngine
 import com.anatame.flordia.utils.Constants.BASE_URL_MOVIE
+import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 embedUrlDetected,
                 "js/movies.js"
             ))
-        }.loadUrl(BASE_URL_MOVIE)
+        }.loadUrl(BASE_URL_MOVIE+"/series/the-flash-oll65")
 
 
         binding.btnSubmit.setOnClickListener {
@@ -51,6 +56,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGetHtml.setOnClickListener {
             remote.getHtml()
+        }
+
+        binding.btnGetServers.setOnClickListener {
+            remote.getServers()
+        }
+
+        binding.btnGetEpsSeas.setOnClickListener {
+            remote.getSeasonsAndEpisodes()
         }
     }
 
@@ -62,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private val embedUrlDetected: (url: String) -> Unit = {
         viewModel.embedUrl.postValue(it)
+        Timber.tag("streamUrl").d(it)
     }
 
 
@@ -75,5 +89,32 @@ class MainActivity : AppCompatActivity() {
 
     fun loadMovieDetails(url: String){
         webEngine.loadUrl(BASE_URL_MOVIE + url)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_mainactivity, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.refresh -> {
+                refresh()
+            }
+
+            R.id.goback -> {
+                goback()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun goback() {
+        webEngine.goBack()
+    }
+
+    private fun refresh() {
+        webEngine.reload()
     }
 }

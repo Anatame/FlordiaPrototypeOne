@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.WindowManager
 import android.webkit.WebView
+import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImpl
 
 class FlordiaWebEngine(
      context: Context,
