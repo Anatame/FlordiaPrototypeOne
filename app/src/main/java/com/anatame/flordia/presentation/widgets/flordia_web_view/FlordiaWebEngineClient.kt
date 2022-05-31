@@ -11,18 +11,21 @@ import java.io.InputStream
 import java.nio.channels.FileChannel.open
 import java.nio.channels.Pipe.open
 
-class FlordiaWebEngineClient(): WebViewClient() {
+class FlordiaWebEngineClient(
+    val webEngine: FlordiaWebEngine
+): WebViewClient() {
 
-    var webRequestHandler: WebRequestHandler? = DefaultWebRequestHandler()
-        set(value) {
-            value?.webEngineEventListener = webEngineEventListener
-            field = value
-        }
-    var webEngineEventListener: WebEngineEventListener? = null
-        set(value) {
-            webRequestHandler?.webEngineEventListener = value
-            field = value
-        }
+
+//    var webRequestHandler: WebRequestHandler? = DefaultWebRequestHandler()
+//        set(value) {
+//            value?.webEngineEventListener = webEngineEventListener
+//            field = value
+//        }
+//    var webEngineEventListener: WebEngineEventListener? = null
+//        set(value) {
+//            webRequestHandler?.webEngineEventListener = value
+//            field = value
+//        }
 
     init {
         setUpServiceWorkerHandler()
@@ -33,7 +36,7 @@ class FlordiaWebEngineClient(): WebViewClient() {
         request: WebResourceRequest?
     ): WebResourceResponse? {
         return try {
-            webRequestHandler?.getWebResourceResponseForRequest(request)
+            webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
         } catch(e: Exception) {
             e.printStackTrace();
             null
@@ -46,7 +49,7 @@ class FlordiaWebEngineClient(): WebViewClient() {
                 override fun shouldInterceptRequest(request: WebResourceRequest?): WebResourceResponse? {
                     return try {
                         Timber.tag("fromServiceWorker").d(request?.url.toString())
-                        webRequestHandler?.getWebResourceResponseForRequest(request)
+                        webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
                     } catch(e: Exception) {
                         e.printStackTrace();
                         null
@@ -59,14 +62,14 @@ class FlordiaWebEngineClient(): WebViewClient() {
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
 
-        val filePath = webEngineEventListener?.pageStarted()
+        val filePath = webEngine.webEngineEventListener?.pageStarted()
         filePath?.let{injectScriptFile(view, it)}
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
 
-        val filePath = webEngineEventListener?.pageFinished()
+        val filePath = webEngine.webEngineEventListener?.pageFinished()
         filePath?.let{injectScriptFile(view, it)}
     }
 

@@ -21,8 +21,8 @@ class WebEngineRemote (
         executeJS("getServers()")
     }
 
-    fun getSeasonsAndEpisodes() {
-        executeJS("getSeasonsAndEpisodes()")
+    fun getMovieControls() {
+        executeJS("getMovieControls()")
     }
 
     fun getMovieList(){

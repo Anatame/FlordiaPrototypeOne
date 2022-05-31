@@ -1,8 +1,12 @@
 package com.anatame.flordia.domain.managers.flordia_web_view
 
 import com.anatame.flordia.domain.models.MovieItem
+import com.anatame.flordia.domain.models.MovieType
 import com.anatame.flordia.domain.parsers.Parser
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MItem
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieControls
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieItems
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import timber.log.Timber
 
@@ -33,10 +37,30 @@ class WebEngineEventListenerImpl(
     }
 
     override fun getHTML(html: String) {
-        val movieList = Parser.getSearchItems(html)
-        Timber.d(movieList.toString())
-        Timber.d(movieList.size.toString())
+//        val movieList = Parser.getSearchItems(html)
+//        Timber.d(movieList.toString())
+//        Timber.d(movieList.size.toString())
+//        getMovieList(movieList)
+    }
+
+    override fun getMovieList(list: List<MItem>?) {
+        val movieList: ArrayList<MovieItem> = ArrayList()
+        list?.forEach {
+            movieList.add(
+                MovieItem(
+                    it.thumbnail,
+                    it.title,
+                    if(it.type == "TV") MovieType.TV else MovieType.MOVIE,
+                    it.source
+                )
+            )
+        }
+
         getMovieList(movieList)
+    }
+
+    override fun getMovieControls(controls: MovieControls) {
+
     }
 
     override fun embedUrlDetected(url: String) {

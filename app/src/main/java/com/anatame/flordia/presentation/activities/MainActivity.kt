@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val remote = WebEngineRemote(webEngine)
 
         webEngine.apply {
-            addWebRequestHandler(WebRequestHandlerImpl)
-            addWebEngineEventListener(WebEngineEventListenerImpl(
+            webRequestHandler = WebRequestHandlerImpl
+            webEngineEventListener = WebEngineEventListenerImpl(
                 startFunc,
                 endFunc = {
                     hideProgress()
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 getMovieList,
                 embedUrlDetected,
                 "js/movies.js"
-            ))
+            )
         }.loadUrl(BASE_URL_MOVIE+"/series/the-flash-oll65")
 
 
@@ -59,12 +59,8 @@ class MainActivity : AppCompatActivity() {
             remote.getMovieList()
         }
 
-        binding.btnGetServers.setOnClickListener {
-            remote.getServers()
-        }
-
         binding.btnGetEpsSeas.setOnClickListener {
-            remote.getSeasonsAndEpisodes()
+            remote.getMovieControls()
         }
     }
 

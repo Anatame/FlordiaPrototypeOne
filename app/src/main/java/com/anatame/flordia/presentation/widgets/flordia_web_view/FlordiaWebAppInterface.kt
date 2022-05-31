@@ -1,22 +1,24 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
-import android.content.Context
 import android.webkit.JavascriptInterface
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieControls
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieItems
-import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.SeasonsAndEpisodes
-import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.Servers
 import com.google.gson.Gson
+import com.gorisse.thomas.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class FlordiaWebAppInterface(
-    private val mContext: Context,
+    private val webEngine: FlordiaWebEngine
 ) {
     private val gson = Gson()
-    var webEngineEventListener: WebEngineEventListener? = null
 
     @JavascriptInterface
     fun getHtml(html: String) {
-        webEngineEventListener?.getHTML(html)
+        // webEngineEventListener?.getHTML(html)
 //        Parser.getAllEpisodes(html)
 //        Log.d("MovieList", Parser.getSearchItems(html).toString())
 //        File(mContext.filesDir, "test.html").printWriter().use { out ->
@@ -41,28 +43,46 @@ class FlordiaWebAppInterface(
             """.trimIndent())
         }
 
-    }
-
-    @JavascriptInterface
-    fun getServers(data: String) {
-        Timber.tag("getServersLog").d(data)
-        val jsonData = gson.fromJson(data, Servers::class.java)
-
-        jsonData.servers.forEach{
-            Timber.d(it.name)
+        when (getStatus()){
+            WebEngineStatus.Status.OnBaseScreen -> {}
+            WebEngineStatus.Status.OnMovieDetailsScreen -> {
+                Timber.d(jsonData.list.size.toString())
+                webEngine.webEngineEventListener?.getMovieList(jsonData.list)
+            }
+            WebEngineStatus.Status.OnSearchScreen -> {
+                Timber.d(jsonData.list.size.toString())
+                webEngine.webEngineEventListener?.getMovieList(jsonData.list)
+            }
         }
     }
 
+
     @JavascriptInterface
-    fun getSeasonsAndEpisodes(data: String) {
+    fun getMovieControls(data: String) {
         Timber.tag("getSeasonsAndEpisodesLog").d(data)
 
-        val jsonData = gson.fromJson(data, SeasonsAndEpisodes::class.java)
+        val jsonData = gson.fromJson(data, MovieControls::class.java)
 
         jsonData.seasonWiseEpisodes.forEach{
            Timber.d(it.size.toString())
         }
+
+        when (getStatus()){
+            WebEngineStatus.Status.OnBaseScreen -> {}
+            WebEngineStatus.Status.OnMovieDetailsScreen -> {
+                Timber.d("BROOOOOOoo")
+                webEngine.webEngineEventListener?.getMovieControls(jsonData)
+            }
+            WebEngineStatus.Status.OnSearchScreen -> {}
+        }
     }
+
+    private fun getStatus(): WebEngineStatus.Status{
+        return runBlocking(Dispatchers.Main) {
+            webEngine.getCurrentStatus()
+        }
+    }
+
 }
 
 

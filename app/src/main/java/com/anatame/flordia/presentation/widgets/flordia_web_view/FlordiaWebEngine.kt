@@ -14,20 +14,17 @@ class FlordiaWebEngine(
      attrs: AttributeSet? = null
 ): WebView(context, attrs) {
 
-    private val flordiaWebEngineClient = FlordiaWebEngineClient()
-    private var flordiaWebAppInterface = FlordiaWebAppInterface(this.context)
+    private val flordiaWebEngineClient = FlordiaWebEngineClient(this)
+    private var flordiaWebAppInterface = FlordiaWebAppInterface(this)
+    var webRequestHandler: WebRequestHandler? = null
+    var webEngineEventListener: WebEngineEventListener? = null
 
     init{
         setUpConfig()
     }
 
-    fun addWebRequestHandler(handler: WebRequestHandler){
-        flordiaWebEngineClient.webRequestHandler = handler
-    }
-
-    fun addWebEngineEventListener(listener: WebEngineEventListener){
-        flordiaWebEngineClient.webEngineEventListener = listener
-        flordiaWebAppInterface.webEngineEventListener = listener
+    fun getCurrentStatus(): WebEngineStatus.Status {
+        return WebEngineStatus(url).currentStatus
     }
 
     private fun setUpConfig() {

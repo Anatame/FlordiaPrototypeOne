@@ -64,6 +64,15 @@ function getMovieList(){
     Android.getMovieList(JSON.stringify(finalData))
 }
 
+function getMovieControls(){
+    let movieData = {
+        servers: getServers(),
+        seasons: getSeasons(),
+        seasonWiseEpisodes: getEpisodes(),
+    };
+    Android.getMovieControls(JSON.stringify(movieData));
+}
+
 function getServers(){
     const servers = [];
     Array.from($('#servers')[0].children).forEach(e => {
@@ -82,20 +91,9 @@ function getServers(){
         };
     });
 
-    const finalData = {
-        servers: servers
-    }
-
-    Android.getServers(JSON.stringify(finalData));
+    return servers;
 }
 
-function getSeasonsAndEpisodes(){
-    let movieData = {
-        seasons: getSeasons(),
-        seasonWiseEpisodes: getEpisodes(),
-    };
-    Android.getSeasonsAndEpisodes(JSON.stringify(movieData));
-}
 
 function getSeasons(){
     let seasons = [];
