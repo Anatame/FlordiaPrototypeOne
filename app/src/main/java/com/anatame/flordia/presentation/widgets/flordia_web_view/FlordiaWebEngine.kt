@@ -2,10 +2,12 @@ package com.anatame.flordia.presentation.widgets.flordia_web_view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.WindowManager
+import android.util.Log
+import android.webkit.ConsoleMessage
+import android.webkit.WebChromeClient
 import android.webkit.WebView
-import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImpl
+import timber.log.Timber
+
 
 class FlordiaWebEngine(
      context: Context,
@@ -42,6 +44,12 @@ class FlordiaWebEngine(
         settings.mediaPlaybackRequiresUserGesture = false
         settings.loadsImagesAutomatically = false
         settings.blockNetworkImage = true
+        webChromeClient = object: WebChromeClient(){
+            override fun onConsoleMessage(cm: ConsoleMessage): Boolean {
+                // Timber.tag("TAG").d(cm.message() + " at " + cm.sourceId() + ":" + cm.lineNumber())
+                return true
+            }
+        }
 
 //        enableSlowDraw()
 //        setWillNotDraw(false)

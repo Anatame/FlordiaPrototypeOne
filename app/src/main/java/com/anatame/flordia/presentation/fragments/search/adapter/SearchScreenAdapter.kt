@@ -12,10 +12,10 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ItemMovieGridBinding
 import com.anatame.flordia.domain.models.MovieItem
-import com.bumptech.glide.Glide
 import timber.log.Timber
 
 
@@ -55,30 +55,28 @@ class SearchScreenAdapter(
         Timber.tag("searchResponse").d(searchMovieItem.toString())
 
 
-        holder.itemView.apply {
-            Glide.with(this)
-                .load(searchMovieItem.thumbnail)
-                .centerCrop()
-                .into(holder.binding.ivMovieThumbnail)
-            holder.binding.apply {
-                val layoutParams: LinearLayout.LayoutParams =
-                    container.layoutParams as LinearLayout.LayoutParams
-                layoutParams.setMargins(8.px, 16.px, 8.px, 8.px)
-                container.layoutParams = layoutParams
 
-                tvMovieName.text = searchMovieItem.title
+        holder.binding.apply {
+            ivMovieThumbnail.load(searchMovieItem.thumbnail)
 
-                cvContainer.setOnClickListener {
-                    onItemClickListener?.let {
-                        it(
-                            searchMovieItem,
-                            holder.binding.ivMovieThumbnail
-                        )
-                    }
+            val layoutParams: LinearLayout.LayoutParams =
+                container.layoutParams as LinearLayout.LayoutParams
+            layoutParams.setMargins(8.px, 16.px, 8.px, 8.px)
+
+            container.layoutParams = layoutParams
+
+            tvMovieName.text = searchMovieItem.title
+
+            cvContainer.setOnClickListener {
+                onItemClickListener?.let {
+                    it(
+                        searchMovieItem,
+                        holder.binding.ivMovieThumbnail
+                    )
                 }
             }
-
         }
+
         setRotateAnimation(position, holder)
 
     }

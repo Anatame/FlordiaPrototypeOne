@@ -58,13 +58,16 @@ function getMovieList(){
             movieList.push(movieItem);
         });
 
-    Android.getMovieList(JSON.stringify(movieList))
+    const finalData = {
+        list: movieList
+    }
+    Android.getMovieList(JSON.stringify(finalData))
 }
 
 function getServers(){
-    let servers = [];
+    const servers = [];
     Array.from($('#servers')[0].children).forEach(e => {
-        let server = {
+        const server = {
             name: "",
             dataId: ""
         };
@@ -78,13 +81,18 @@ function getServers(){
             servers.push(server);
         };
     });
-    Android.getServers(JSON.stringify(servers));
+
+    const finalData = {
+        servers: servers
+    }
+
+    Android.getServers(JSON.stringify(finalData));
 }
 
 function getSeasonsAndEpisodes(){
     let movieData = {
         seasons: getSeasons(),
-        episodes: getEpisodes(),
+        seasonWiseEpisodes: getEpisodes(),
     };
     Android.getSeasonsAndEpisodes(JSON.stringify(movieData));
 }
