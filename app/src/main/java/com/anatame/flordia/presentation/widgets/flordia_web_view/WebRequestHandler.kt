@@ -13,15 +13,17 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.nio.charset.Charset
 
-abstract class WebRequestHandler(
-    val client: OkHttpClient? = null,
-) {
+abstract class WebRequestHandler {
 
-    var webEngineEventListener: WebEngineEventListener? = null
+    var webEngine: FlordiaWebEngine? = null
 
     fun getWebResourceResponseForRequest(
         request: WebResourceRequest?)
     : WebResourceResponse?{
+
+        request?.requestHeaders?.toHeaders()?.forEach {
+            Timber.tag("requestHeaders").d("${it.first}: ${it.second}")
+        }
 
         val url = request?.url.toString()
         return if(requestFilter(url) && currentRequestURL(url))

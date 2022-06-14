@@ -47,9 +47,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun onSearchItemClicked(movieItem: MovieItem, imageView: ImageView) {
-        val navArgs = NavArgs.DetailFragment(movieItem, imageView)
+        val navArgs = NavArgs.DetailFragment(movieItem)
         val direction = SearchFragmentDirections
             .actionSearchFragmentToDetailFragment(navArgs)
         findNavController().navigate(direction)
+        (requireActivity() as MainActivity).loadMovieDetails(movieItem.source)
     }
 }

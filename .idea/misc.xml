@@ -3,9 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/drawable-v24/fullscreen_20.xml" value="0.154" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/drawable-v24/ic_baseline_arrow_back_24.xml" value="0.154" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/drawable-v24/ic_baseline_fullscreen_24.xml" value="0.154" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/drawable-v24/ic_baseline_fullscreen_exit_24.xml" value="0.1535" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/fragment_detail.xml" value="0.19356486210418794" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/fragment_search.xml" value="0.19356486210418794" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_controls_more.xml" value="0.1875" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_controls_more_quality.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_custom_controls.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_custom_stub_landscape.xml" value="0.1814814814814815" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/menu/actionbar_mainactivity.xml" value="0.1787037037037037" />
       </map>
     </option>

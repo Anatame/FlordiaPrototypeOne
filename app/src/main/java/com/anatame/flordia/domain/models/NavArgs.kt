@@ -6,6 +6,5 @@ import java.io.Serializable
 object NavArgs{
     data class DetailFragment(
         val movieItem: MovieItem,
-        val imageView: ImageView
     ) : Serializable
 }

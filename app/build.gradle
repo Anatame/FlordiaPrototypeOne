@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
     id 'dagger.hilt.android.plugin'
 }
@@ -91,4 +92,13 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
+
+    // dependency for exoplayer
+    implementation "com.google.android.exoplayer:exoplayer:2.17.1"
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.17.1"
+    implementation "com.google.android.exoplayer:extension-okhttp:2.17.1"
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.17.1"
+
+    // double tap to seek
+    implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.4'
 }

@@ -16,8 +16,12 @@ class FlordiaWebEngine(
 
     private val flordiaWebEngineClient = FlordiaWebEngineClient(this)
     private var flordiaWebAppInterface = FlordiaWebAppInterface(this)
-    var webRequestHandler: WebRequestHandler? = null
     var webEngineEventListener: WebEngineEventListener? = null
+    var webRequestHandler: WebRequestHandler? = null
+        set(value) {
+            field = value
+            field?.webEngine = this
+        }
 
     init{
         setUpConfig()
@@ -34,7 +38,7 @@ class FlordiaWebEngine(
 //        )
 
         settings.userAgentString =
-           "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.databaseEnabled = true

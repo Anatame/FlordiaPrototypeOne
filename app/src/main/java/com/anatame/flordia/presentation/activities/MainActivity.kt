@@ -40,13 +40,14 @@ class MainActivity : AppCompatActivity() {
                 startFunc,
                 endFunc = {
                     hideProgress()
-                    remote.getHtml()
+                    remote.getMovieList()
                 },
                 getMovieList,
                 embedUrlDetected,
                 "js/movies.js"
             )
-        }.loadUrl(BASE_URL_MOVIE+"/series/the-flash-oll65")
+        }.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
+//        }.loadUrl(BASE_URL_MOVIE)
 
 
         binding.btnSubmit.setOnClickListener {
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val startFunc: () -> Unit = { showProgress() }
+
     // private val endFunc: () -> Unit = { hideProgress() }
     private val getMovieList: (List<MovieItem>) -> Unit = {
         viewModel.searchMovieItems.postValue(it)
@@ -76,15 +78,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showProgress(){
+    private fun showProgress() {
         binding.progressCircular.visibility = View.VISIBLE
     }
 
-    private fun hideProgress(){
+    private fun hideProgress() {
         binding.progressCircular.visibility = View.INVISIBLE
     }
 
-    fun loadMovieDetails(url: String){
+    fun loadMovieDetails(url: String) {
         webEngine.loadUrl(BASE_URL_MOVIE + url)
     }
 
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.refresh -> {
                 refresh()
             }
@@ -114,4 +116,16 @@ class MainActivity : AppCompatActivity() {
     private fun refresh() {
         webEngine.reload()
     }
+
+    override fun onPause() {
+        super.onPause()
+        webEngine.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webEngine.onResume()
+    }
+
 }
+

@@ -5,6 +5,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.dnsoverhttps.DnsOverHttps
+import timber.log.Timber
 
 
 object AppNetworkClient {
@@ -17,6 +18,7 @@ object AppNetworkClient {
     }
 
     private fun makeClient(): OkHttpClient {
+
         val bootstrapClient = OkHttpClient.Builder()
             .cache(null)
             .build()
@@ -25,8 +27,13 @@ object AppNetworkClient {
             .url("https://cloudflare-dns.com/dns-query".toHttpUrl())
             .build()
 
+//        val dns = DnsOverHttps.Builder().client(bootstrapClient)
+//            .url("https://dns.google/dns-query".toHttpUrl())
+//            .build()
+
         return bootstrapClient.newBuilder()
             .dns(dns)
+            .cache(null)
             .build()
     }
 }

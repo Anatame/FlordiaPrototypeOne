@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Flordia">
         <activity
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:name="com.anatame.flordia.presentation.activities.MainActivity"
             android:exported="true">
             <intent-filter>
