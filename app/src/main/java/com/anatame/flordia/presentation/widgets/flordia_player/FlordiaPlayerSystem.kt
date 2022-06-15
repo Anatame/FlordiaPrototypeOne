@@ -1,22 +1,19 @@
-package com.anatame.exoplayer.widgets.player
+package com.anatame.flordia.presentation.widgets.flordia_player
 
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.PlayerCustomStubBinding
 import com.anatame.flordia.presentation.activities.MainActivity
-import com.anatame.flordia.presentation.widgets.flordia_player.FlordiaPlayer
-import com.anatame.flordia.presentation.widgets.flordia_player.FullScreenDialog
 import com.anatame.flordia.presentation.widgets.flordia_player.more_controls.MoreControlsDialogFragment
 import com.github.vkay94.dtpv.youtube.YouTubeOverlay
-import kotlinx.parcelize.Parcelize
 
 class FlordiaPlayerSystem (
     context: Context,
@@ -24,7 +21,6 @@ class FlordiaPlayerSystem (
 ) : FrameLayout(context, attrs) {
 
     private val binding = PlayerCustomStubBinding.inflate(LayoutInflater.from(context), this, false)
-    private val flordiaPlayer: FlordiaPlayer = FlordiaPlayer(context)
     private var activity: Activity? = null
     private var dialog: FullScreenDialog? = null
 
@@ -46,15 +42,15 @@ class FlordiaPlayerSystem (
 
     fun playVideo(url: String, activity: Activity){
         this.activity = activity
-        flordiaPlayer.playVideo(url, binding.vidPlayer)
+        FlordiaPlayer.playVideo(url, binding.vidPlayer)
     }
 
     fun goLandScape(){
-        dialog = activity?.let { FullScreenDialog(context, it, flordiaPlayer, binding.vidPlayer) }
+        dialog = activity?.let { FullScreenDialog(context, it, FlordiaPlayer, binding.vidPlayer) }
         dialog?.show()
     }
 
-    fun getCurrentPosition(): Long = flordiaPlayer.getCurrentPlayerPosition()
+    fun getCurrentPosition(): Long? = FlordiaPlayer.getCurrentPlayerPosition()
 
     // lifecycle stuff
     fun resume(pos: Long){
@@ -62,19 +58,19 @@ class FlordiaPlayerSystem (
             if(it.isShowing)
                 it.handleGoingFullScreen()
         }
-        flordiaPlayer.resume(pos)
+        FlordiaPlayer.resume(pos)
     }
-    fun stop(): Long {
-        return flordiaPlayer.stop()
+    fun stop(): Long? {
+        return FlordiaPlayer.stop()
     }
-    fun destroy(): Long {
-        return flordiaPlayer.release()
+    fun destroy(): Long? {
+        return FlordiaPlayer.release()
     }
 
 
 
     private fun configureOverlay() {
-        flordiaPlayer.player.let { binding.youtubeOverlay.player(it) }
+        FlordiaPlayer.player?.let { binding.youtubeOverlay.player(it) }
         binding.youtubeOverlay
             .performListener(object : YouTubeOverlay.PerformListener {
                 override fun onAnimationStart() {
@@ -105,7 +101,7 @@ class FlordiaPlayerSystem (
             goLandScape()
         }
         moreBtn.setOnClickListener{
-            val moreDialog = MoreControlsDialogFragment(flordiaPlayer)
+            val moreDialog = MoreControlsDialogFragment(FlordiaPlayer)
             activity?.let {moreDialog.show((it as MainActivity).supportFragmentManager, "More Controls Dialog")}
         }
     }

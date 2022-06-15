@@ -41,7 +41,6 @@ abstract class WebRequestHandler {
 
     open fun currentRequestURL(url: String): Boolean = true
 
-
     private fun handleNetworkRequest(
         request: WebResourceRequest?
     ): WebResourceResponse?

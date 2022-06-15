@@ -33,6 +33,7 @@ class MoreControlsDialogFragment(
 
         moreControlsAdapter.setOnItemClickListener{
             flordiaPlayer.setVideoQuality(it.bitrate)
+            this.dialog?.cancel()
             this.dismiss()
             Toast.makeText(requireContext(), flordiaPlayer.currentBitrate.toString(), Toast.LENGTH_SHORT).show()
         }

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
@@ -33,19 +34,20 @@ class MainActivity : AppCompatActivity() {
         webEngine = binding.visualWebEngine
         // webEngine = FlordiaWebEngine(this)
         val remote = WebEngineRemote(webEngine)
+        val listener = WebEngineEventListenerImpl(
+            startFunc,
+            endFunc = {
+                hideProgress()
+                remote.getMovieList()
+            },
+            getMovieList,
+            embedUrlDetected,
+            "js/movies.js"
+        )
 
         webEngine.apply {
             webRequestHandler = WebRequestHandlerImpl
-            webEngineEventListener = WebEngineEventListenerImpl(
-                startFunc,
-                endFunc = {
-                    hideProgress()
-                    remote.getMovieList()
-                },
-                getMovieList,
-                embedUrlDetected,
-                "js/movies.js"
-            )
+            webEngineEventListener = listener
         }.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
 //        }.loadUrl(BASE_URL_MOVIE)
 
@@ -61,9 +63,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGetEpsSeas.setOnClickListener {
-            remote.getMovieControls()
+            if (webEngine.isVisible)
+                webEngine.visibility = View.INVISIBLE
+            else
+                webEngine.visibility = View.VISIBLE
         }
+
+        listener.setOnControlsFetched {
+            viewModel.movieControls.postValue(it)
+        }
+
+        viewModel.serverDataId.observe(this){
+            remote.selectServer(it)
+        }
+
     }
+
 
     private val startFunc: () -> Unit = { showProgress() }
 
@@ -76,6 +91,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.embedUrl.postValue(it)
         Timber.tag("streamUrl").d(it)
     }
+
+
 
 
     private fun showProgress() {

@@ -29,9 +29,15 @@ class WebEngineRemote (
         executeJS("getMovieList()")
     }
 
+    fun selectServer(dataId: String?) {
+        executeJS("selectServer($dataId)")
+    }
+
     private fun isAtHome(): Boolean = webEngine.url.toString().contains("home")
 
     private fun executeJS(js: String){
         webEngine.evaluateJavascript(js.trimIndent().trimMargin()){};
     }
+
+
 }

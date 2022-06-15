@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.anatame.exoplayer.widgets.player.FlordiaPlayerSystem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.anatame.flordia.presentation.widgets.flordia_player.FlordiaPlayerSystem
 import com.anatame.flordia.databinding.FragmentDetailBinding
 import com.anatame.flordia.presentation.activities.MainActivity
 import com.anatame.flordia.presentation.activities.MainActivityViewModel
+import com.anatame.flordia.presentation.fragments.detail.adapter.EpisodesAdapter
+import com.anatame.flordia.presentation.fragments.detail.adapter.ServersAdapter
 import timber.log.Timber
 
 class DetailFragment : Fragment(){
@@ -34,9 +36,33 @@ class DetailFragment : Fragment(){
 
         mainActivityViewModel.embedUrl.observe(viewLifecycleOwner){ url ->
             url?.let{
-                binding.textView.text = it
+                Timber.tag("playVideoCallledFromDetail").d(url)
                 player?.playVideo(url, requireActivity())
             }
+        }
+
+        val serversAdapter = ServersAdapter(requireContext())
+        val episodesAdapter = EpisodesAdapter(requireContext())
+
+        binding.rvServers.apply{
+            adapter = serversAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+
+        binding.rvEpisodes.apply{
+            adapter = episodesAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+
+        mainActivityViewModel.movieControls.observe(viewLifecycleOwner) {
+            serversAdapter.differ.submitList(it?.servers?.filter {
+                it.name == "Vidstream" || it.name == "MyCloud"
+            })
+            episodesAdapter.differ.submitList(it?.seasonWiseEpisodes?.first())
+        }
+
+        serversAdapter.setOnItemClickListener{
+            mainActivityViewModel.serverDataId.postValue(it.dataId)
         }
 
         return binding.root

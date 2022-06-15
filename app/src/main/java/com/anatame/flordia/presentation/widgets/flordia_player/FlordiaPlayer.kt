@@ -11,28 +11,34 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.video.VideoFrameMetadataListener
 import timber.log.Timber
 
-class FlordiaPlayer(private val context: Context) {
-    var player: ExoPlayer = makePlayer(context)
+object FlordiaPlayer {
+    var player: ExoPlayer? = null
     var currentUrl: String? = null
 
     val currentBitrate: Int?
-        get() = player.videoFormat?.bitrate
+        get() = player?.videoFormat?.bitrate
 
     val currentTracksDataList = ArrayList<TrackData>()
 
+    init {
+        Timber.tag("FlordiaPlayerInitialized").d("BRUH")
+    }
+
     fun playVideo(url: String, playerView: PlayerView){
         currentUrl = url
+        player = makePlayer(playerView.context)
+
         playerView.player = player
-        player.setMediaSource(createMediaSource(url))
-        player.prepare()
-        player.playWhenReady = true
+        player?.setMediaSource(createMediaSource(url))
+        player?.prepare()
+        player?.play()
         listen()
     }
 
-    fun getCurrentPlayerPosition(): Long = player.currentPosition
+    fun getCurrentPlayerPosition(): Long? = player?.currentPosition
 
     private fun listen(){
-        player.addListener(object: Player.Listener{
+        player?.addListener(object: Player.Listener{
             override fun onTracksInfoChanged(tracksInfo: TracksInfo) {
                 super.onTracksInfoChanged(tracksInfo)
 
@@ -53,8 +59,8 @@ class FlordiaPlayer(private val context: Context) {
     }
 
     fun setVideoQuality(bitrate: Int){
-        player.let{
-            it.trackSelectionParameters = player.trackSelectionParameters
+        player?.let{
+            it.trackSelectionParameters = it.trackSelectionParameters
                 .buildUpon()
                 .setMaxVideoBitrate(bitrate)
                 .setMinVideoBitrate(bitrate)
@@ -70,9 +76,9 @@ class FlordiaPlayer(private val context: Context) {
                     mediaFormat: MediaFormat?
                 ) {
                     Timber.d("""
-                                 ${format.height} x ${format.width}
-                                 ${format.bitrate}
-                                 """.trimIndent())
+                                         ${format.height} x ${format.width}
+                                         ${format.bitrate}
+                                         """.trimIndent())
                 }
             })
 
@@ -80,21 +86,21 @@ class FlordiaPlayer(private val context: Context) {
     }
 
     fun resume(pos: Long) {
-        player.seekTo(pos)
-        player.prepare()
-        player.play()
+        player?.seekTo(pos)
+        player?.prepare()
+        player?.play()
     }
 
-    fun stop(): Long {
+    fun stop(): Long? {
         val currentPos = getCurrentPlayerPosition()
-        player.stop()
-
+        player?.stop()
         return currentPos
     }
-    fun release(): Long {
+    fun release(): Long? {
         val currentPos = getCurrentPlayerPosition()
-        player.stop()
-        player.release()
+        player?.stop()
+        player?.release()
+        player = null
 
         return currentPos
     }
@@ -107,9 +113,10 @@ class FlordiaPlayer(private val context: Context) {
             .setAllowChunklessPreparation(false)
             .createMediaSource(MediaItem.fromUri(hls))
     }
+
     private fun makePlayer(context: Context): ExoPlayer {
         Timber.d("shit this got called again bruh")
-        return ExoPlayer.Builder(context).build()
+        return player ?: ExoPlayer.Builder(context).build()
     }
 }
 

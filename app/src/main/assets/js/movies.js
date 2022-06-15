@@ -147,3 +147,11 @@ function selectServer(dataId){
         };
     });
 }
+
+
+let MOVIE_CONTROLS_INTERVAL = setInterval(function(){
+    if($('#servers').length > 0){
+        getMovieControls();
+        clearInterval(MOVIE_CONTROLS_INTERVAL);
+    };
+}, 400);

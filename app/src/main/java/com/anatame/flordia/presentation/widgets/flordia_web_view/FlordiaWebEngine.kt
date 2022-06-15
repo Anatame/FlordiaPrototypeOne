@@ -42,7 +42,7 @@ class FlordiaWebEngine(
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.databaseEnabled = true
-        settings.mediaPlaybackRequiresUserGesture = false
+        settings.mediaPlaybackRequiresUserGesture = true
         settings.loadsImagesAutomatically = false
         settings.blockNetworkImage = true
         webChromeClient = object: WebChromeClient(){

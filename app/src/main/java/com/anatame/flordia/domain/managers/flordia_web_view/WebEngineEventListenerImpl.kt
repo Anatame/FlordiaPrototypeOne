@@ -17,6 +17,8 @@ class WebEngineEventListenerImpl(
     var startTime: Long = 0
     var endTime: Long = 0
 
+    private var onControlsFetched: ((MovieControls)-> Unit)? = null
+
     override fun pageStarted(): String? {
         startTime = System.currentTimeMillis()
         Timber.d("Page Started")
@@ -58,11 +60,16 @@ class WebEngineEventListenerImpl(
 
     override fun getMovieControls(controls: MovieControls) {
         Timber.d(controls.toString())
+        onControlsFetched?.let { it(controls) }
     }
 
     override fun embedUrlDetected(url: String) {
         getEmbedUrl(url)
         Timber.d("calledForStreamUrl")
+    }
+
+    fun setOnControlsFetched(listener: (MovieControls) -> Unit){
+        onControlsFetched = listener
     }
 
 }

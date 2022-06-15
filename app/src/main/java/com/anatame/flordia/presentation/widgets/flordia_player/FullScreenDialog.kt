@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import com.anatame.exoplayer.widgets.player.FlordiaPlayerSystem
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.PlayerCustomStubLandscapeBinding
 import com.anatame.flordia.presentation.activities.MainActivity
@@ -35,15 +34,16 @@ class FullScreenDialog(
     private lateinit var backBtn: ImageButton
     private lateinit var resizeBtn: ImageButton
 
+    var moreDialog: MoreControlsDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleGoingFullScreen()
         binding = PlayerCustomStubLandscapeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        handleGoingFullScreen()
         newPlayerView = binding.vidPlayer
 
-        PlayerView.switchTargetView(flordiaPlayer.player, playerView, newPlayerView)
+        flordiaPlayer.player?.let { PlayerView.switchTargetView(it, playerView, newPlayerView) }
 
         configureOverlay()
         setUpControls()
@@ -67,18 +67,10 @@ class FullScreenDialog(
 
     fun backToPortrait(){
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        PlayerView.switchTargetView(flordiaPlayer.player, newPlayerView, playerView)
+        flordiaPlayer.player?.let { PlayerView.switchTargetView(it, newPlayerView, playerView) }
         notFullScreen(this.window!!)
         notFullScreen(activity.window!!)
         this.dismiss()
-    }
-
-    fun handleGoingFullScreen(){
-        this.window?.let {
-            fullScreenActivity(it)
-        }
-        // fullScreenActivity(activity.window!!)
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
     private fun setUpControls(){
@@ -111,17 +103,29 @@ class FullScreenDialog(
 
     private fun handleShowingMoreControls() {
         val fm = (activity as MainActivity).supportFragmentManager
-        val moreDialog = MoreControlsDialogFragment(flordiaPlayer)
-        moreDialog.showNow(fm, "More Controls Dialog")
-        moreDialog.dialog?.setOnDismissListener {
+        moreDialog = MoreControlsDialogFragment(flordiaPlayer)
+        moreDialog?.showNow(fm, "More Controls Dialog")
+        moreDialog?.dialog?.setOnDismissListener {
             handleGoingFullScreen()
-            moreDialog.dismiss()
+            moreDialog?.dismiss()
         }
-        moreDialog.dialog?.setOnCancelListener {
+        moreDialog?.dialog?.setOnCancelListener {
             handleGoingFullScreen()
-            moreDialog.dismiss()
+            moreDialog?.dismiss()
         }
     }
+
+    fun handleGoingFullScreen(){
+        this.window?.let {
+            fullScreenActivity(it)
+        }
+        moreDialog?.dialog?.window?.let {
+            fullScreenActivity(it)
+        }
+        // fullScreenActivity(activity.window!!)
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    }
+
 
     private fun resize(){
         when(newPlayerView.resizeMode){
@@ -144,7 +148,7 @@ class FullScreenDialog(
     }
 
     private fun configureOverlay() {
-        binding.youtubeOverlay.player(flordiaPlayer.player)
+        flordiaPlayer.player?.let { binding.youtubeOverlay.player(it) }
         binding.youtubeOverlay
             .performListener(object : YouTubeOverlay.PerformListener {
                 override fun onAnimationStart() {

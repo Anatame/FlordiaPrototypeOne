@@ -10,9 +10,12 @@
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/fragment_detail.xml" value="0.19356486210418794" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/fragment_search.xml" value="0.19356486210418794" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/item_episode.xml" value="0.1814814814814815" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/item_server.xml" value="0.1814814814814815" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_controls_more.xml" value="0.1875" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_controls_more_quality.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_custom_controls.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_custom_stub.xml" value="0.1814814814814815" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/layout/player_custom_stub_landscape.xml" value="0.1814814814814815" />
         <entry key="..\:/AndroidStudioProjects/Flordia/app/src/main/res/menu/actionbar_mainactivity.xml" value="0.1787037037037037" />
       </map>
