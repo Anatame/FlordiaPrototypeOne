@@ -45,12 +45,12 @@ class FlordiaWebEngine(
         settings.mediaPlaybackRequiresUserGesture = true
         settings.loadsImagesAutomatically = false
         settings.blockNetworkImage = true
-        webChromeClient = object: WebChromeClient(){
-            override fun onConsoleMessage(cm: ConsoleMessage): Boolean {
-                // Timber.tag("TAG").d(cm.message() + " at " + cm.sourceId() + ":" + cm.lineNumber())
-                return true
-            }
-        }
+//        webChromeClient = object: WebChromeClient(){
+//            override fun onConsoleMessage(cm: ConsoleMessage): Boolean {
+//                // Timber.tag("TAG").d(cm.message() + " at " + cm.sourceId() + ":" + cm.lineNumber())
+//                return true
+//            }
+//        }
 
 //        enableSlowDraw()
 //        setWillNotDraw(false)

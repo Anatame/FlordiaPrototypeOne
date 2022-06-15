@@ -148,6 +148,23 @@ function selectServer(dataId){
     });
 }
 
+function selectEpisode(dataId){
+        Array.from($('.episodes')).forEach(e => {
+            Array.from(e.children).forEach(range => {
+                Array.from(range.children).forEach(episode => {
+                    let epsChild = episode.children[0];
+                    let mDataId = epsChild.getAttribute("data-kname");
+                    let href = epsChild.getAttribute("href");
+                    if(mDataId == dataId){
+                        epsChild.click();
+                        console.log(mDataId);
+                        Android.epsSelected(mDataId);
+                    };
+                });
+            });
+        });
+}
+
 
 let MOVIE_CONTROLS_INTERVAL = setInterval(function(){
     if($('#servers').length > 0){

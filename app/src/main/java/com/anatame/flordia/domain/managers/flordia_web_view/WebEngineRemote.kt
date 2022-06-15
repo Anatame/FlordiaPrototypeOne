@@ -1,6 +1,7 @@
 package com.anatame.flordia.domain.managers.flordia_web_view
 
 import android.webkit.WebView
+import timber.log.Timber
 
 class WebEngineRemote (
     private val webEngine: WebView
@@ -31,6 +32,11 @@ class WebEngineRemote (
 
     fun selectServer(dataId: String?) {
         executeJS("selectServer($dataId)")
+    }
+
+    fun selectEpisode(dataId: String?) {
+        Timber.d("called for $dataId")
+        executeJS("selectEpisode('$dataId')")
     }
 
     private fun isAtHome(): Boolean = webEngine.url.toString().contains("home")

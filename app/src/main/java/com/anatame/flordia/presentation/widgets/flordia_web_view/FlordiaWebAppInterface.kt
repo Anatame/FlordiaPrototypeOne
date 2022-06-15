@@ -77,6 +77,11 @@ class FlordiaWebAppInterface(
         }
     }
 
+    @JavascriptInterface
+    fun epsSelected(dataId: String){
+        Timber.d(dataId)
+    }
+
     private fun getStatus(): WebEngineStatus.Status{
         return runBlocking(Dispatchers.Main) {
             webEngine.getCurrentStatus()

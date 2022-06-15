@@ -11,4 +11,5 @@ class MainActivityViewModel: ViewModel() {
     val embedUrl: MutableLiveData<String?> = MutableLiveData(null)
 
     val serverDataId: MutableLiveData<String?> = MutableLiveData(null)
+    val episodeDataId: MutableLiveData<String?> = MutableLiveData(null)
 }

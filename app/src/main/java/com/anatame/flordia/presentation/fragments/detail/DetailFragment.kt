@@ -65,6 +65,10 @@ class DetailFragment : Fragment(){
             mainActivityViewModel.serverDataId.postValue(it.dataId)
         }
 
+        episodesAdapter.setOnItemClickListener{
+            mainActivityViewModel.episodeDataId.postValue(it.dataId)
+        }
+
         return binding.root
     }
 

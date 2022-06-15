@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity() {
             remote.selectServer(it)
         }
 
+        viewModel.episodeDataId.observe(this){
+            remote.selectEpisode(it)
+        }
+
     }
 
 
