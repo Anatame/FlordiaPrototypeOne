@@ -11,7 +11,6 @@ class WebEngineRemote (
             executeJS( "startSearchFromHome('${query}');")
         else
             executeJS( "startSearchOthers('${query}');")
-
     }
 
     fun getHtml() {
@@ -44,6 +43,5 @@ class WebEngineRemote (
     private fun executeJS(js: String){
         webEngine.evaluateJavascript(js.trimIndent().trimMargin()){};
     }
-
 
 }

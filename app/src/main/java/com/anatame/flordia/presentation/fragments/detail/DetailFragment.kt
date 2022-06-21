@@ -1,9 +1,12 @@
 package com.anatame.flordia.presentation.fragments.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -14,6 +17,8 @@ import com.anatame.flordia.presentation.activities.MainActivity
 import com.anatame.flordia.presentation.activities.MainActivityViewModel
 import com.anatame.flordia.presentation.fragments.detail.adapter.EpisodesAdapter
 import com.anatame.flordia.presentation.fragments.detail.adapter.ServersAdapter
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.Episode
+import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.Season
 import timber.log.Timber
 
 class DetailFragment : Fragment(){
@@ -23,6 +28,7 @@ class DetailFragment : Fragment(){
     private lateinit var mainActivityViewModel: MainActivityViewModel
     private val viewModel: DetailViewModel by viewModels()
     private var player: FlordiaPlayerSystem? = null
+    private lateinit var episodesAdapter: EpisodesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +44,13 @@ class DetailFragment : Fragment(){
             url?.let{
                 Timber.tag("playVideoCallledFromDetail").d(url)
                 player?.playVideo(url, requireActivity())
+                hideProgress()
             }
         }
 
         val serversAdapter = ServersAdapter(requireContext())
-        val episodesAdapter = EpisodesAdapter(requireContext())
+        episodesAdapter = EpisodesAdapter(requireContext())
+
 
         binding.rvServers.apply{
             adapter = serversAdapter
@@ -54,22 +62,63 @@ class DetailFragment : Fragment(){
             layoutManager = LinearLayoutManager(context)
         }
 
-        mainActivityViewModel.movieControls.observe(viewLifecycleOwner) {
-            serversAdapter.differ.submitList(it?.servers?.filter {
+        mainActivityViewModel.movieControls.observe(viewLifecycleOwner) { controls ->
+            serversAdapter.differ.submitList(controls?.servers?.filter {
                 it.name == "Vidstream" || it.name == "MyCloud"
             })
-            episodesAdapter.differ.submitList(it?.seasonWiseEpisodes?.first())
+
+            controls?.let {handleSeasonsLoaded(it.seasons, it.seasonWiseEpisodes)  }
+
         }
 
         serversAdapter.setOnItemClickListener{
             mainActivityViewModel.serverDataId.postValue(it.dataId)
+            showProgress()
         }
 
         episodesAdapter.setOnItemClickListener{
             mainActivityViewModel.episodeDataId.postValue(it.dataId)
+            showProgress()
         }
 
         return binding.root
+    }
+
+    private fun handleSeasonsLoaded(seasons: List<Season>, seasonWiseEpisodes: List<List<Episode>>){
+        val spinner = binding.spSeasons
+
+        Log.d("SeasonsData", seasons.toString())
+
+        val dataAdapter: ArrayAdapter<String> = ArrayAdapter(requireContext(),  android.R.layout.simple_spinner_dropdown_item,  seasons.map {
+            it.name
+        })
+        spinner.adapter = dataAdapter
+
+        episodesAdapter.differ.submitList(seasonWiseEpisodes.first())
+
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                episodesAdapter.differ.submitList(seasonWiseEpisodes[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
+    }
+
+    private fun showProgress() {
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.progressCircular.visibility = View.INVISIBLE
     }
 
     override fun onResume() {

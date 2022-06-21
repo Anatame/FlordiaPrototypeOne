@@ -17,8 +17,7 @@
         <com.anatame.flordia.presentation.widgets.flordia_player.FlordiaPlayerSystem
             android:id="@+id/flordiaPlayer"
             android:layout_width="match_parent"
-            android:layout_height="238dp"
-            />
+            android:layout_height="238dp" />
     </LinearLayout>
 
 
@@ -27,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Servers"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playerContainer" />
 
@@ -36,6 +35,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_server_heading"
+        />
+
+    <Spinner
+        android:id="@+id/sp_seasons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_server_heading"
+        app:layout_constraintBottom_toBottomOf="@id/tv_server_heading"
         />
 
     <TextView
@@ -50,10 +60,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_episodes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
+        android:fadeScrollbars="true"
         app:layout_constraintTop_toBottomOf="@id/tv_episode_heading"
         />
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="#FF5722"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <!--    <TextView-->
 <!--        android:id="@+id/textView"-->

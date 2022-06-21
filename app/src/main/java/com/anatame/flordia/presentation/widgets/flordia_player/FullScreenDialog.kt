@@ -38,7 +38,6 @@ class FullScreenDialog(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        handleGoingFullScreen()
         binding = PlayerCustomStubLandscapeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         newPlayerView = binding.vidPlayer
@@ -47,11 +46,23 @@ class FullScreenDialog(
 
         configureOverlay()
         setUpControls()
+
+        window?.decorView?.setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener { p0, p1 ->
+            if(p1?.isVisible(WindowInsets.Type.navigationBars()) == true)
+                handleGoingFullScreen()
+
+            p1
+        })
     }
 
     override fun onStart() {
         super.onStart()
-        handleGoingFullScreen()
+        window?.decorView?.setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener { p0, p1 ->
+            if(p1?.isVisible(WindowInsets.Type.navigationBars()) == true)
+                handleGoingFullScreen()
+
+            p1
+        })
     }
 
 //    override fun onStop() {
@@ -116,14 +127,15 @@ class FullScreenDialog(
     }
 
     fun handleGoingFullScreen(){
+        // fullScreenActivity(activity.window!!)
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
         this.window?.let {
             fullScreenActivity(it)
         }
         moreDialog?.dialog?.window?.let {
             fullScreenActivity(it)
         }
-        // fullScreenActivity(activity.window!!)
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
 
@@ -163,10 +175,10 @@ class FullScreenDialog(
             })
     }
 
-    private fun fullScreenActivity(window: Window) {
+    private fun fullScreenActivity(window: Window?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-            val controller =  window.insetsController
+            window?.setDecorFitsSystemWindows(false)
+            val controller =  window?.insetsController
             if (controller != null) {
                 controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
                 controller.systemBarsBehavior =
@@ -176,13 +188,13 @@ class FullScreenDialog(
                 };
             }
         } else {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_FULLSCREEN)
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                window?.attributes?.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             };
         }
     }

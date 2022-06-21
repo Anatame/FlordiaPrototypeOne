@@ -43,6 +43,7 @@ class FlordiaPlayerSystem (
     fun playVideo(url: String, activity: Activity){
         this.activity = activity
         FlordiaPlayer.playVideo(url, binding.vidPlayer)
+        configureOverlay()
     }
 
     fun goLandScape(){
