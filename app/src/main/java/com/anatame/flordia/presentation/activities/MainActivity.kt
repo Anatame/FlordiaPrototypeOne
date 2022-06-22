@@ -48,7 +48,9 @@ class MainActivity : AppCompatActivity() {
         webEngine.apply {
             webRequestHandler = WebRequestHandlerImpl
             webEngineEventListener = listener
-        }.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
+        }
+
+            //.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
 //        }.loadUrl(BASE_URL_MOVIE)
 
 

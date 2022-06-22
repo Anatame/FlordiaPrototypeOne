@@ -47,22 +47,12 @@ class FullScreenDialog(
         configureOverlay()
         setUpControls()
 
-        window?.decorView?.setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener { p0, p1 ->
-            if(p1?.isVisible(WindowInsets.Type.navigationBars()) == true)
-                handleGoingFullScreen()
-
-            p1
-        })
+        handleGoingFullScreen()
     }
 
     override fun onStart() {
         super.onStart()
-        window?.decorView?.setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener { p0, p1 ->
-            if(p1?.isVisible(WindowInsets.Type.navigationBars()) == true)
-                handleGoingFullScreen()
-
-            p1
-        })
+        handleGoingFullScreen()
     }
 
 //    override fun onStop() {
@@ -126,7 +116,7 @@ class FullScreenDialog(
         }
     }
 
-    fun handleGoingFullScreen(){
+    fun handleGoingFullScreen() {
         // fullScreenActivity(activity.window!!)
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
@@ -137,6 +127,8 @@ class FullScreenDialog(
             fullScreenActivity(it)
         }
     }
+
+
 
 
     private fun resize(){
