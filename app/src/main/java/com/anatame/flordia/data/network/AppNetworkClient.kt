@@ -41,7 +41,7 @@ object AppNetworkClient {
 
             .addInterceptor { chain ->
                 runBlocking {
-                    retryIO(times = 2, initialDelay = 50, factor = 1.0) {
+                    retryIO(times = 15, initialDelay = 50, factor = 1.0) {
                         chain.request().newBuilder()
                             .build()
                             .let(chain::proceed)

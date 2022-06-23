@@ -73,23 +73,15 @@ abstract class WebRequestHandler {
 
         return newRequest?.let {
 
-            var newResponse: Response? = null
-
-            AppNetworkClient.getClient().newCall(it).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    e.printStackTrace()
-                    Handler(Looper.getMainLooper()).post {
-                        webEngine?.webEngineEventListener?.onError("Rip")
-                    }
-                    Timber.tag("errorfuck").d("MOTHERFUCKER")
+            try {
+                AppNetworkClient.getClient().newCall(it).execute()
+            } catch (e: SSLHandshakeException){
+                Timber.tag("errorfuck").d("MOTHERFUCKER")
+                Handler(Looper.getMainLooper()).post {
+                    webEngine?.webEngineEventListener?.onError("RIP")
                 }
-
-                override fun onResponse(call: Call, response: Response) {
-                    newResponse = response
-                }
-            })
-
-            return newResponse
+                null
+            }
         }
     }
 
