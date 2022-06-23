@@ -1,5 +1,6 @@
 package com.anatame.flordia.domain.managers.flordia_web_view
 
+import android.webkit.WebResourceError
 import com.anatame.flordia.domain.models.MovieItem
 import com.anatame.flordia.domain.models.MovieType
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
@@ -12,6 +13,7 @@ class WebEngineEventListenerImpl(
     private val endFunc: ()-> Unit,
     private val getMovieList: (List<MovieItem>)-> Unit,
     private val getEmbedUrl: (String)-> Unit,
+    private val errorHappened: (errorDescription: String?) -> Unit,
     private val script: String? = null,
 ): WebEngineEventListener {
     var startTime: Long = 0
@@ -66,6 +68,10 @@ class WebEngineEventListenerImpl(
     override fun embedUrlDetected(url: String) {
         getEmbedUrl(url)
         Timber.d("calledForStreamUrl")
+    }
+
+    override fun onError(errorDescription: String?) {
+        errorHappened(errorDescription)
     }
 
     fun setOnControlsFetched(listener: (MovieControls) -> Unit){

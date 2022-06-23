@@ -1,17 +1,22 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
+import android.os.Handler
+import android.os.Looper
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import com.anatame.flordia.data.network.AppNetworkClient
 import com.anatame.flordia.utils.FilterList
+import com.anatame.flordia.utils.retryIO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import okhttp3.*
 import okhttp3.Headers.Companion.toHeaders
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import timber.log.Timber
 import java.io.ByteArrayInputStream
+import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
+import javax.net.ssl.SSLHandshakeException
 
 abstract class WebRequestHandler {
 
@@ -66,11 +71,34 @@ abstract class WebRequestHandler {
                 .build()
         }
 
-        return newRequest?.let { AppNetworkClient.getClient().newCall(it).execute() }
+        return newRequest?.let {
+
+            var newResponse: Response? = null
+
+            AppNetworkClient.getClient().newCall(it).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                    Handler(Looper.getMainLooper()).post {
+                        webEngine?.webEngineEventListener?.onError("Rip")
+                    }
+                    Timber.tag("errorfuck").d("MOTHERFUCKER")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    newResponse = response
+                }
+            })
+
+            return newResponse
+        }
     }
+
+
+
 
     private fun webResourceResponseBuilder(response: Response?): WebResourceResponse? {
         return response?.let {
+
             WebResourceResponse(
                 it.body?.contentType()?.let { "${it.type}/${it.subtype}" },
                 it.body?.contentType()?.charset(Charset.defaultCharset())?.name(),

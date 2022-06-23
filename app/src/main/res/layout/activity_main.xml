@@ -40,6 +40,18 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+
+    <TextView
+        android:id="@+id/tv_connecting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="attempting to connect..."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +92,7 @@
 
 
         <Button
-            android:visibility="invisible"
+            android:visibility="visible"
             android:id="@+id/btn_get_eps_seas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

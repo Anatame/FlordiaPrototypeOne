@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebResourceError
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             },
             getMovieList,
             embedUrlDetected,
+            errorFunc,
             "js/movies.js"
         )
 
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             webEngineEventListener = listener
         }
 
-            //.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
+            .loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
 //        }.loadUrl(BASE_URL_MOVIE)
 
 
@@ -87,6 +89,14 @@ class MainActivity : AppCompatActivity() {
 
 
     private val startFunc: () -> Unit = { showProgress() }
+    private val errorFunc: (errorDescription: String?) -> Unit = {
+        binding.tvConnecting.text = "Your internet connection is garbage. Click on me to retry."
+        binding.tvConnecting.setOnClickListener {
+            webEngine.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
+            binding.tvConnecting.text = "Attempting to connect..."
+            binding.tvConnecting.setOnClickListener(null)
+        }
+    }
 
     // private val endFunc: () -> Unit = { hideProgress() }
     private val getMovieList: (List<MovieItem>) -> Unit = {
@@ -102,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun showProgress() {
+        binding.tvConnecting.visibility = View.INVISIBLE
         binding.progressCircular.visibility = View.VISIBLE
     }
 

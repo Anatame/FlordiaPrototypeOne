@@ -1,31 +1,18 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
+import android.annotation.TargetApi
 import android.graphics.Bitmap
-import android.os.ParcelFileDescriptor.open
-import android.system.Os.open
-import android.util.Log
+import android.net.http.SslError
+import android.os.Build
 import android.webkit.*
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
-import java.nio.channels.FileChannel.open
-import java.nio.channels.Pipe.open
+
 
 class FlordiaWebEngineClient(
     val webEngine: FlordiaWebEngine
 ): WebViewClient() {
-
-
-//    var webRequestHandler: WebRequestHandler? = DefaultWebRequestHandler()
-//        set(value) {
-//            value?.webEngineEventListener = webEngineEventListener
-//            field = value
-//        }
-//    var webEngineEventListener: WebEngineEventListener? = null
-//        set(value) {
-//            webRequestHandler?.webEngineEventListener = value
-//            field = value
-//        }
 
     init {
         setUpServiceWorkerHandler()
@@ -72,8 +59,8 @@ class FlordiaWebEngineClient(
         val filePath = webEngine.webEngineEventListener?.pageFinished()
         filePath?.let{injectScriptFile(view, it)}
     }
-
-
+    
+    
     private fun injectScriptFile(view: WebView?, scriptFile: String) {
         val input: InputStream?
         try {
@@ -93,6 +80,4 @@ class FlordiaWebEngineClient(
 
 }
 
-class DefaultWebRequestHandler: WebRequestHandler(){
-
-}
+class DefaultWebRequestHandler: WebRequestHandler()

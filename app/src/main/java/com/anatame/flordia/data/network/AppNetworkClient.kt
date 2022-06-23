@@ -1,11 +1,14 @@
 package com.anatame.flordia.data.network
 
+import com.anatame.flordia.utils.retryIO
+import kotlinx.coroutines.runBlocking
+import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.dnsoverhttps.DnsOverHttps
+import org.apache.http.params.HttpConnectionParams
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLHandshakeException
 
 
 object AppNetworkClient {
@@ -31,9 +34,20 @@ object AppNetworkClient {
 //            .url("https://dns.google/dns-query".toHttpUrl())
 //            .build()
 
+
         return bootstrapClient.newBuilder()
             .dns(dns)
             .cache(null)
+
+            .addInterceptor { chain ->
+                runBlocking {
+                    retryIO(times = 2, initialDelay = 50, factor = 1.0) {
+                        chain.request().newBuilder()
+                            .build()
+                            .let(chain::proceed)
+                    }
+                }
+            }
             .build()
     }
 }

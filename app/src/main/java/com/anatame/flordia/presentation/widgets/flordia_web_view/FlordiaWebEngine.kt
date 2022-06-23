@@ -62,6 +62,7 @@ class FlordiaWebEngine(
             "Android")
 
         webViewClient = flordiaWebEngineClient
+
     }
 
     companion object {
