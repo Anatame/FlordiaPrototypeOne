@@ -8,7 +8,9 @@ import android.webkit.WebResourceError
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.anatame.flordia.R
+import com.anatame.flordia.data.network.AppNetworkClient
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineRemote
@@ -16,6 +18,7 @@ import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImp
 import com.anatame.flordia.domain.models.MovieItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.FlordiaWebEngine
 import com.anatame.flordia.utils.Constants.BASE_URL_MOVIE
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -31,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         hideProgress()
+        lifecycleScope.launch {
+            AppNetworkClient.warmUpReq("https://fmovies.to")
+        }
 
         webEngine = binding.visualWebEngine
         // webEngine = FlordiaWebEngine(this)

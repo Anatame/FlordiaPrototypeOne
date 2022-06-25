@@ -23,6 +23,7 @@ class FlordiaWebEngineClient(
         request: WebResourceRequest?
     ): WebResourceResponse? {
         return try {
+            Timber.tag("requestIntercepted").d(request?.url.toString())
             webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
         } catch(e: Exception) {
             e.printStackTrace();
@@ -36,6 +37,7 @@ class FlordiaWebEngineClient(
                 override fun shouldInterceptRequest(request: WebResourceRequest?): WebResourceResponse? {
                     return try {
                         Timber.tag("fromServiceWorker").d(request?.url.toString())
+                        Timber.tag("requestIntercepted").d(request?.url.toString())
                         webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
                     } catch(e: Exception) {
                         e.printStackTrace();
@@ -44,6 +46,11 @@ class FlordiaWebEngineClient(
                 }
             }
         )
+    }
+
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        val filePath = webEngine.webEngineEventListener?.pageStarted()
+        return super.shouldOverrideUrlLoading(view, request)
     }
 
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {

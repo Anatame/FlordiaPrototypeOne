@@ -3,6 +3,8 @@ package com.anatame.flordia.utils
 import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.IOException
+import java.net.SocketException
+import javax.net.ssl.SSLHandshakeException
 
 suspend fun <T> retryIO(
     times: Int = Int.MAX_VALUE,
@@ -14,6 +16,7 @@ suspend fun <T> retryIO(
     var currentDelay = initialDelay
     repeat(times - 1) {
         try {
+            Timber.tag("retryIO").d("repeating Request")
             return block()
         } catch (e: IOException) {
             e.printStackTrace()

@@ -1,0 +1,4 @@
+{
+    "html": "<div class=\"guest\" data-toggle=\"modal\" data-target=\"#md-login\">\n    <i class=\"fa fa-user-circle\"></i>\n    <span>Login/ Register</span>\n</div>\n",
+    "user": null
+}

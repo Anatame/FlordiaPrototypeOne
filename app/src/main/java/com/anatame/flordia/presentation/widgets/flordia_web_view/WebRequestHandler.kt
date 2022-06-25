@@ -1,14 +1,16 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import com.anatame.flordia.data.network.AppNetworkClient
+import com.anatame.flordia.presentation.widgets.flordia_web_view.utils.getTextWebResource
+import com.anatame.flordia.presentation.widgets.flordia_web_view.utils.replaceFile
+import com.anatame.flordia.presentation.widgets.flordia_web_view.utils.requestFilter
 import com.anatame.flordia.utils.FilterList
-import com.anatame.flordia.utils.retryIO
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okhttp3.Headers.Companion.toHeaders
 import timber.log.Timber
@@ -16,7 +18,7 @@ import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
-import javax.net.ssl.SSLHandshakeException
+import kotlin.system.measureTimeMillis
 
 abstract class WebRequestHandler {
 
@@ -52,10 +54,14 @@ abstract class WebRequestHandler {
     {
         return try {
             Timber.tag("calledFor").d(request?.url.toString())
-            if(request?.url.toString().contains("info"))
-                Timber.tag("infoJson").d(request?.url.toString())
 
-            webResourceResponseBuilder(getResponseForRequest(request))
+            val fileName: String? =  FilterList.offlineFiles[request?.url.toString()]
+
+            if(fileName == null)
+                webResourceResponseBuilder(getResponseForRequest(request))
+            else
+                fileName.let { webEngine?.context?.let { ctx -> replaceFile(ctx, it) } }
+
         } catch(e: Exception) {
             e.printStackTrace()
             Timber.d("Failed for ${request?.url}")
@@ -64,6 +70,7 @@ abstract class WebRequestHandler {
     }
 
     private fun getResponseForRequest(request: WebResourceRequest?): Response? {
+
         val newRequest = request?.requestHeaders?.toHeaders()?.let {
             Request.Builder()
                 .url(request.url.toString())
@@ -72,20 +79,42 @@ abstract class WebRequestHandler {
         }
 
         return newRequest?.let {
-
-            try {
-                AppNetworkClient.getClient().newCall(it).execute()
-            } catch (e: SSLHandshakeException){
-                Timber.tag("errorfuck").d("MOTHERFUCKER")
-                Handler(Looper.getMainLooper()).post {
-                    webEngine?.webEngineEventListener?.onError("RIP")
+            var timeTaken: Long = 0
+            val reqRes = customElapsedTime({ timeTaken = it }){
+                try {
+                    AppNetworkClient.getClient().newCall(it).execute()
+                } catch (e: Exception){
+                    Timber.tag("errorfuck").d("MOTHERFUCKER")
+                    Handler(Looper.getMainLooper()).post {
+                        webEngine?.webEngineEventListener?.onError("RIP")
+                    }
+                    null
                 }
-                null
             }
+
+            if(timeTaken >= 50){
+                Timber.tag("LongRequest").d("total time taken is $timeTaken for ${it.url.toString()}")
+            }
+            return reqRes
         }
     }
 
 
+    fun <T> customElapsedTime(
+        timeTaken:((time: Long) -> Unit),
+        block: () -> T
+    ): T {
+
+        var final: T
+
+        val elapsedTime = measureTimeMillis {
+            final = block()
+        }
+
+        timeTaken(elapsedTime)
+
+        return final
+    }
 
 
     private fun webResourceResponseBuilder(response: Response?): WebResourceResponse? {
@@ -101,24 +130,4 @@ abstract class WebRequestHandler {
             )
         };
     }
-
-    private fun requestFilter(url: String): Boolean {
-        return (checkIfContainsKeyWord(url, FilterList.allowedHosts)
-                && !checkIfContainsKeyWord(url, FilterList.blockedKeywords))
-    }
-
-    private fun checkIfContainsKeyWord(url: String, list: List<String>): Boolean{
-        val strArr = url.split(".", "?", "/")
-        strArr.forEach {
-            if(list.contains(it.trim())) {
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun getTextWebResource(data: InputStream = ByteArrayInputStream("".toByteArray())): WebResourceResponse {
-        return WebResourceResponse("text/plain", "UTF-8", data)
-    }
-
 }
