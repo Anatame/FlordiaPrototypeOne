@@ -1,5 +1,6 @@
 package com.anatame.flordia.presentation.activities
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,6 +8,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.webkit.ProxyConfig
+import androidx.webkit.ProxyController
+import androidx.webkit.WebViewFeature
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
@@ -15,12 +19,9 @@ import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImp
 import com.anatame.flordia.domain.models.MovieItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.FlordiaWebEngine
 import com.anatame.flordia.utils.Constants.BASE_URL_MOVIE
-import com.anatame.flordia.utils.ProxyServer
 import com.google.android.exoplayer2.util.Log
 import timber.log.Timber
-import java.net.Proxy
-import java.net.ProxySelector
-import java.net.URI
+import java.util.concurrent.Executor
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,8 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        startProxy()
 
         hideProgress()
 
@@ -173,19 +172,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun startProxy(){
-        ProxyServer.create()
-    }
-
-    private fun setProxy() {
-        //Device proxy settings
-        try {
-//            System.setProperty("http.proxyHost", proxyHost)
-//            System.setProperty("http.proxyPort", proxyPort)
-        } catch (e: Exception){
-            e.printStackTrace()
-        }
-    }
 
 }
 

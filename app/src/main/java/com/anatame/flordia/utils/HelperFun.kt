@@ -19,7 +19,7 @@ suspend fun <T> retryIO(
         try {
             Timber.tag("retryIO").d("repeating Request")
             return block()
-        } catch (e: SSLHandshakeException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             Timber.tag("damnMan").d("brah")
         }

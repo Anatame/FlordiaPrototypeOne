@@ -18,6 +18,8 @@ import okhttp3.dnsoverhttps.DnsOverHttps
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.security.KeyManagementException
 import java.security.KeyStoreException
 import java.security.NoSuchAlgorithmException
@@ -62,7 +64,7 @@ object AppNetworkClient {
                     Timber.d("request Started")
                     customElapsedTime("BruhClient69") {
                         runBlocking {
-                            retryIO(initialDelay = 0) {
+                            retryIO(initialDelay = 0, times = Int.MAX_VALUE) {
                                 chain.request().newBuilder()
                                     .header("User-Agent", Constants.userAgentList.first())
                                     .header("Connection", "keep-alive")

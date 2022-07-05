@@ -27,7 +27,6 @@ class FlordiaWebEngineClient(
         request: WebResourceRequest?
     ): WebResourceResponse? {
         return try {
-            Timber.tag("engInterceptedHeaders").d("url: ${request?.url.toString()}")
             request?.requestHeaders?.forEach{
                 Timber.tag("engInterceptedHeaders")
                     .d("${it.key}: ${it.value}")
