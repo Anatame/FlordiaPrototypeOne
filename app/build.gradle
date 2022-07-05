@@ -25,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +42,13 @@ android {
 
     packagingOptions {
         resources.excludes.add("META-INF/*")
+    }
+
+    configurations {
+        all*.exclude group: 'com.barchart.udt', module: 'barchart-udt-bundle'
+        cleanedAnnotations
+        implementation.exclude group: 'org.jetbrains' , module:'annotations'
+        implementation.exclude group: 'org.slf4j'
     }
 }
 
@@ -78,11 +88,10 @@ dependencies {
 
     implementation("io.ktor:ktor-client-apache:2.0.2")
 
-
     //retrofit
-    def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+//    def retrofit_version = "2.9.0"
+//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+//    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // DI Hilt
     implementation "com.google.dagger:hilt-android:2.38.1"
@@ -107,4 +116,14 @@ dependencies {
 
     // double tap to seek
     implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.4'
+
+    // proxy stuff
+    implementation fileTree('libs/core-2.2.1-all.jar')
+
+    implementation 'com.google.guava:guava:31.0.1-android'
+    implementation('org.slf4j:slf4j-android:1.7.35') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation 'androidx.multidex:multidex:2.0.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
