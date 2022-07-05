@@ -37,9 +37,8 @@ class FlordiaWebEngine(
 //            WindowManager.LayoutParams.MATCH_PARENT,
 //            WindowManager.LayoutParams.MATCH_PARENT
 //        )
-
         settings.userAgentString =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+            "Mozilla/5.0 (Linux; Android 10; SM-N960U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Mobile Safari/537.36"
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.databaseEnabled = true
@@ -63,6 +62,12 @@ class FlordiaWebEngine(
             "Android")
 
         webViewClient = flordiaWebEngineClient
+
+        webChromeClient = object: WebChromeClient(){
+            override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                return true
+            }
+        }
 
     }
 

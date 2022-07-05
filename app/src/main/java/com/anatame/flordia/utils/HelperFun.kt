@@ -5,6 +5,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.SocketException
 import javax.net.ssl.SSLHandshakeException
+import kotlin.system.measureTimeMillis
 
 suspend fun <T> retryIO(
     times: Int = Int.MAX_VALUE,
@@ -18,7 +19,7 @@ suspend fun <T> retryIO(
         try {
             Timber.tag("retryIO").d("repeating Request")
             return block()
-        } catch (e: IOException) {
+        } catch (e: SSLHandshakeException) {
             e.printStackTrace()
             Timber.tag("damnMan").d("brah")
         }
@@ -26,4 +27,25 @@ suspend fun <T> retryIO(
         currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
     }
     return block() // last attempt
+}
+
+fun <T> customElapsedTime(
+    tag: String? = null,
+    timeTaken:((time: Long) -> Unit)? = null,
+    block: () -> T
+): T {
+
+    var final: T
+
+    val elapsedTime = measureTimeMillis {
+        final = block()
+    }
+
+    timeTaken?.let { it(elapsedTime) }
+
+    tag?.apply { Timber.tag(this).d(elapsedTime.toString()) } ?: run {
+        Timber.d(elapsedTime.toString())
+    }
+
+    return final
 }

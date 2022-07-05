@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.webkit.WebResourceError
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -27,16 +26,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     val viewModel: MainActivityViewModel by viewModels()
     private lateinit var webEngine: FlordiaWebEngine
+    var startTime: Long = 0
+    var endTime: Long = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         hideProgress()
-        lifecycleScope.launch {
-            AppNetworkClient.warmUpReq("https://fmovies.to")
-        }
 
         webEngine = binding.visualWebEngine
         // webEngine = FlordiaWebEngine(this)
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             startFunc,
             endFunc = {
                 hideProgress()
-                remote.getMovieList()
             },
             getMovieList,
             embedUrlDetected,
@@ -58,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             webEngineEventListener = listener
         }
 
-            .loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
-//        }.loadUrl(BASE_URL_MOVIE)
+        webEngine.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
+        startTime = System.currentTimeMillis()
 
 
         binding.btnSubmit.setOnClickListener {
@@ -94,7 +93,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private val startFunc: () -> Unit = { showProgress() }
+    private val startFunc: () -> Unit = {
+        showProgress()
+    }
     private val errorFunc: (errorDescription: String?) -> Unit = {
         binding.tvConnecting.text = "Your internet connection is garbage. Click on me to retry."
         binding.tvConnecting.setOnClickListener {

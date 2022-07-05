@@ -171,4 +171,11 @@ let MOVIE_CONTROLS_INTERVAL = setInterval(function(){
         getMovieControls();
         clearInterval(MOVIE_CONTROLS_INTERVAL);
     };
-}, 400);
+}, 100);
+
+let MOVIE_LIST = setInterval(function(){
+    if($('.filmlist').length > 0){
+        getMovieList();
+        clearInterval(MOVIE_LIST);
+    };
+}, 100);

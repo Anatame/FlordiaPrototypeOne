@@ -23,7 +23,7 @@ object FilterList {
     )
 
     val blockedKeywords: List<String> = listOf<String>(
-        "css",
+        //"css",
         "font-awesome",
         "fonts",
         "Swiper",
@@ -49,17 +49,17 @@ object FilterList {
 
         // detail screen
         offlineFiles.put("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "$movieJsSupportFiles/googleJquery.js")
-        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$movieJsSupportFiles/jwcontrols.js")
-        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.js", "$movieJsSupportFiles/jwplayer.js")
-        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$movieJsSupportFiles/vizcloudhls.js")
-        offlineFiles.put("https://vizcloud.store/assets/vidstream/cache/scripts.js?v=1656176407", "$movieJsSupportFiles/vizscript.js")
-        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwpsrv.js", "$movieJsSupportFiles/jpsrv.js")
+
+        // vizcloud
+//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$movieJsSupportFiles/jwcontrols.js")
+//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.js", "$movieJsSupportFiles/jwplayer.js")
+//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$movieJsSupportFiles/vizcloudhls.js")
+//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwpsrv.js", "$movieJsSupportFiles/jpsrv.js")
 
         // mcloud
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$moviePlayerMcloudFiles/hls.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$moviePlayerMcloudFiles/playercontrols.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwpsrv.js", "$moviePlayerMcloudFiles/jpsrv.js")
-        offlineFiles.put("https://mcloud.to/assets/mcloud/cache/scripts.js?v=1656176408", "$moviePlayerMcloudFiles/scripts.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwplayer.js", "$moviePlayerMcloudFiles/jwplayer.js")
     }
 

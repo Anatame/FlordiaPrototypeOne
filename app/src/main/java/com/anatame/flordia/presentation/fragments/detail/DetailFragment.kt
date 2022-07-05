@@ -149,6 +149,7 @@ class DetailFragment : Fragment(){
         player?.destroy()?.let {
             viewModel.currentPlaybackPos = it
         }
+        mainActivityViewModel.embedUrl.postValue(null)
         Timber.tag("playerLifeCycle").d("destroyed")
     }
 }
