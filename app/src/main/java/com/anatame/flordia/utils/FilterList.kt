@@ -19,7 +19,8 @@ object FilterList {
         "proxyman69",
         "saiyaman",
         "workers",
-        "dev"
+        "dev",
+        "vidstream"
     )
 
     val blockedKeywords: List<String> = listOf<String>(
@@ -51,16 +52,17 @@ object FilterList {
         offlineFiles.put("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "$movieJsSupportFiles/googleJquery.js")
 
         // vizcloud
-//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$movieJsSupportFiles/jwcontrols.js")
-//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.js", "$movieJsSupportFiles/jwplayer.js")
-//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$movieJsSupportFiles/vizcloudhls.js")
-//        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwpsrv.js", "$movieJsSupportFiles/jpsrv.js")
+        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$movieJsSupportFiles/jwcontrols.js")
+        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwplayer.js", "$movieJsSupportFiles/jwplayer.js")
+        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$movieJsSupportFiles/vizcloudhls.js")
+        offlineFiles.put("https://vizcloud.store/assets/player/jwplayer-8.24.3/jwpsrv.js", "$movieJsSupportFiles/jpsrv.js")
 
         // mcloud
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/provider.hlsjs.js", "$moviePlayerMcloudFiles/hls.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwplayer.core.controls.js", "$moviePlayerMcloudFiles/playercontrols.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwpsrv.js", "$moviePlayerMcloudFiles/jpsrv.js")
         offlineFiles.put("https://mcloud.to/assets/player/jwplayer-8.24.3/jwplayer.js", "$moviePlayerMcloudFiles/jwplayer.js")
+
     }
 
 

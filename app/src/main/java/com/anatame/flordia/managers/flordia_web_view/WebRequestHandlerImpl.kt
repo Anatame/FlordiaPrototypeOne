@@ -1,4 +1,4 @@
-package com.anatame.flordia.domain.managers.flordia_web_view
+package com.anatame.flordia.managers.flordia_web_view
 
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebRequestHandler
 import timber.log.Timber

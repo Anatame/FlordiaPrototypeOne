@@ -1,4 +1,4 @@
-package com.anatame.flordia.domain.models
+package com.anatame.flordia.models
 
 import java.io.Serializable
 

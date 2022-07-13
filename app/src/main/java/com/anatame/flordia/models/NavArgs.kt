@@ -1,6 +1,5 @@
-package com.anatame.flordia.domain.models
+package com.anatame.flordia.models
 
-import android.widget.ImageView
 import java.io.Serializable
 
 object NavArgs{

@@ -1,24 +1,13 @@
 package com.anatame.flordia.presentation.fragments.home
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
 import com.anatame.flordia.databinding.FragmentHomeBinding
-import com.anatame.flordia.presentation.fragments.home.adapter.HomeAdapter
-import com.anatame.flordia.presentation.fragments.home.adapter.HomeRecyclerViewItem
-import com.anatame.flordia.presentation.fragments.home.tabs.AnimeFragment
-import com.anatame.flordia.presentation.fragments.home.tabs.MovieFragment
 import com.anatame.flordia.presentation.fragments.home.tabs.ViewPagerAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {

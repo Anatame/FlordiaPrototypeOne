@@ -1,13 +1,10 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
 import android.webkit.JavascriptInterface
-import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieControls
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieItems
 import com.google.gson.Gson
-import com.gorisse.thomas.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 

@@ -1,21 +1,12 @@
 package com.anatame.flordia.presentation.fragments.detail.adapter
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.anatame.flordia.R
-import com.anatame.flordia.databinding.ItemMovieGridBinding
 import com.anatame.flordia.databinding.ItemServerBinding
-import com.anatame.flordia.domain.models.MovieItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.Server
 
 class ServersAdapter(

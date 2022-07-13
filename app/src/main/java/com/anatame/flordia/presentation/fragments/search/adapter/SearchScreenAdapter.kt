@@ -2,7 +2,6 @@ package com.anatame.flordia.presentation.fragments.search.adapter
 
 import android.content.Context
 import android.content.res.Resources
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ItemMovieGridBinding
-import com.anatame.flordia.domain.models.MovieItem
+import com.anatame.flordia.models.MovieItem
 import timber.log.Timber
 
 

@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.anatame.flordia.databinding.FragmentAnimeBinding
-import com.anatame.flordia.presentation.fragments.home.adapter.HomeAdapter
-import com.anatame.flordia.presentation.fragments.home.adapter.HomeRecyclerViewItem
 
 class AnimeFragment: Fragment() {
     private lateinit var binding: FragmentAnimeBinding

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anatame.flordia.R
-import com.anatame.flordia.databinding.ActivityMainBinding.inflate
 import com.anatame.flordia.databinding.HomeItemOneBinding
 import com.anatame.flordia.databinding.HomeItemThreeBinding
 import com.anatame.flordia.databinding.HomeItemTwoBinding

@@ -2,7 +2,6 @@ package com.anatame.flordia.presentation.widgets
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.opengl.Visibility
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View

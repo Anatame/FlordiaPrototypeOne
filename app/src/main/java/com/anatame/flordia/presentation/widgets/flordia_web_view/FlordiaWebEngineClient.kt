@@ -1,14 +1,10 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
-import android.annotation.TargetApi
 import android.graphics.Bitmap
-import android.net.http.SslError
-import android.os.Build
 import android.webkit.*
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
-import kotlin.time.Duration.Companion.milliseconds
 
 
 class FlordiaWebEngineClient(
@@ -32,8 +28,8 @@ class FlordiaWebEngineClient(
                     .d("${it.key}: ${it.value}")
             }
             Timber.tag("requestIntercepted").d(request?.url.toString())
-            webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
-            // null
+             webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
+
         } catch(e: Exception) {
             e.printStackTrace();
             null
@@ -45,14 +41,7 @@ class FlordiaWebEngineClient(
             object : ServiceWorkerClient() {
                 override fun shouldInterceptRequest(request: WebResourceRequest?): WebResourceResponse? {
                     return try {
-                        Timber.tag("engInterceptedHeaders").d("url: ${request?.url.toString()}")
-                        request?.requestHeaders?.forEach{
-                            Timber.tag("engInterceptedHeaders")
-                                .d("${it.key}: ${it.value}")
-                        }
-                        Timber.tag("fromServiceWorker").d(request?.url.toString())
-                        Timber.tag("requestIntercepted").d(request?.url.toString())
-                        webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
+                         webEngine.webRequestHandler?.getWebResourceResponseForRequest(request)
                     } catch(e: Exception) {
                         e.printStackTrace();
                         null

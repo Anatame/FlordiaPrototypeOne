@@ -1,8 +1,7 @@
-package com.anatame.flordia.domain.managers.flordia_web_view
+package com.anatame.flordia.managers.flordia_web_view
 
-import android.webkit.WebResourceError
-import com.anatame.flordia.domain.models.MovieItem
-import com.anatame.flordia.domain.models.MovieType
+import com.anatame.flordia.models.MovieItem
+import com.anatame.flordia.models.MovieType
 import com.anatame.flordia.presentation.widgets.flordia_web_view.WebEngineEventListener
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieControls

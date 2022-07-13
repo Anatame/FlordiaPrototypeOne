@@ -16,15 +16,15 @@
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.anatame.flordia.presentation.fragments.home.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
         android:id="@+id/detailFragment"
         android:name="com.anatame.flordia.presentation.fragments.detail.DetailFragment"
         android:label="DetailFragment" >
         <argument
-            android:name="DetailFragmentArgs"
-            app:argType="com.anatame.flordia.domain.models.NavArgs$DetailFragment" />
+            android:name="DetailFragmentNavArgs"
+            app:argType="com.anatame.flordia.models.NavArgs$DetailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.anatame.flordia.presentation.fragments.home.HomeFragment"
-        android:label="HomeFragment" />
 </navigation>

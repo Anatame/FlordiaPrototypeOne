@@ -1,7 +1,5 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
-import android.webkit.WebView
-
 object WebEngineStatus {
 
     private var url: String? = null

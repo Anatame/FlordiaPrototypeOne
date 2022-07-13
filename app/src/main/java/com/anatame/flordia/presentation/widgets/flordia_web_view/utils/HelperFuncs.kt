@@ -1,7 +1,6 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view.utils
 
 import android.content.Context
-import android.util.Log
 import android.webkit.WebResourceResponse
 import com.anatame.flordia.utils.FilterList
 import timber.log.Timber

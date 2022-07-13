@@ -2,12 +2,9 @@ package com.anatame.flordia.presentation.widgets.flordia_web_view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.webkit.ConsoleMessage
 import android.webkit.WebChromeClient
-import android.webkit.WebSettings
 import android.webkit.WebView
-import timber.log.Timber
 
 
 class FlordiaWebEngine(

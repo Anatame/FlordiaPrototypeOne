@@ -9,8 +9,8 @@ import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anatame.flordia.databinding.FragmentSearchBinding
-import com.anatame.flordia.domain.models.MovieItem
-import com.anatame.flordia.domain.models.NavArgs
+import com.anatame.flordia.models.MovieItem
+import com.anatame.flordia.models.NavArgs
 import com.anatame.flordia.presentation.activities.MainActivity
 import com.anatame.flordia.presentation.fragments.search.adapter.SearchScreenAdapter
 
@@ -48,8 +48,7 @@ class SearchFragment : Fragment() {
 
     private fun onSearchItemClicked(movieItem: MovieItem, imageView: ImageView) {
         val navArgs = NavArgs.DetailFragment(movieItem)
-        val direction = SearchFragmentDirections
-            .actionSearchFragmentToDetailFragment(navArgs)
+        val direction = SearchFragmentDirections.actionSearchFragmentToDetailFragment(navArgs)
         findNavController().navigate(direction)
         (requireActivity() as MainActivity).loadMovieDetails(movieItem.source)
     }

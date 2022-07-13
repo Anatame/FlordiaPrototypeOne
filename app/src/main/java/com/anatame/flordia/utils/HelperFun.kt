@@ -35,6 +35,10 @@ fun <T> customElapsedTime(
     block: () -> T
 ): T {
 
+    tag?.apply { Timber.tag(this).d("RequestStarted") } ?: run {
+        Timber.d("RequestStarted")
+    }
+
     var final: T
 
     val elapsedTime = measureTimeMillis {

@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.PlayerCustomStubBinding
 import com.anatame.flordia.presentation.activities.MainActivity

@@ -1,6 +1,5 @@
 package com.anatame.flordia.presentation.activities
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,20 +7,18 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.webkit.ProxyConfig
-import androidx.webkit.ProxyController
-import androidx.webkit.WebViewFeature
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.ActivityMainBinding
-import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineEventListenerImpl
-import com.anatame.flordia.domain.managers.flordia_web_view.WebEngineRemote
-import com.anatame.flordia.domain.managers.flordia_web_view.WebRequestHandlerImpl
-import com.anatame.flordia.domain.models.MovieItem
+import com.anatame.flordia.managers.flordia_web_view.WebEngineEventListenerImpl
+import com.anatame.flordia.managers.flordia_web_view.WebEngineRemote
+import com.anatame.flordia.managers.flordia_web_view.WebRequestHandlerImpl
+import com.anatame.flordia.models.MovieItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.FlordiaWebEngine
 import com.anatame.flordia.utils.Constants.BASE_URL_MOVIE
-import com.google.android.exoplayer2.util.Log
+import com.anatame.flordia.utils.server.Server
+import com.anatame.flordia.utils.server.ServerAddress
+import com.anatame.flordia.utils.server.helpers.Proxify
 import timber.log.Timber
-import java.util.concurrent.Executor
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         hideProgress()
+
+        val serverAddress = ServerAddress("127.0.0.1", 9999)
+
+        Server(serverAddress).run()
+        Proxify(serverAddress)
 
         webEngine = binding.visualWebEngine
         // webEngine = FlordiaWebEngine(this)
@@ -169,9 +171,5 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         webEngine.onResume()
     }
-
-
-
-
 }
 

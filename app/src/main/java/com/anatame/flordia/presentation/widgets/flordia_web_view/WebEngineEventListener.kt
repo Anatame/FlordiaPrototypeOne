@@ -1,6 +1,5 @@
 package com.anatame.flordia.presentation.widgets.flordia_web_view
 
-import android.webkit.WebResourceError
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MItem
 import com.anatame.flordia.presentation.widgets.flordia_web_view.dto.MovieControls
 
