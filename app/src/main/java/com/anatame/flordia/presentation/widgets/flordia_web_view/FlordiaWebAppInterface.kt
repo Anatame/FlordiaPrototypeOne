@@ -43,8 +43,8 @@ class FlordiaWebAppInterface(
         when (getStatus()){
             WebEngineStatus.Status.OnBaseScreen -> {}
             WebEngineStatus.Status.OnMovieDetailsScreen -> {
-                Timber.d(jsonData.list.size.toString())
-                webEngine.webEngineEventListener?.getMovieList(jsonData.list)
+//                Timber.d(jsonData.list.size.toString())
+//                webEngine.webEngineEventListener?.getMovieList(jsonData.list)
             }
             WebEngineStatus.Status.OnSearchScreen -> {
                 Timber.d(jsonData.list.size.toString())

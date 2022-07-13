@@ -1,7 +1,9 @@
 package com.anatame.flordia
 
 import android.app.Application
+import android.content.Context
 import com.google.android.gms.security.ProviderInstaller
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.security.NoSuchAlgorithmException
 import javax.net.ssl.SSLContext
@@ -9,6 +11,7 @@ import javax.net.ssl.SSLContext
 class FlordiaApp: Application() {
     override fun onCreate() {
         super.onCreate()
+        myApplicationContext = this.applicationContext
         initTimber()
 
         try {
@@ -30,5 +33,11 @@ class FlordiaApp: Application() {
                 }
             })
         }
+    }
+
+    companion object {
+        private var myApplicationContext: Context? = null
+
+        fun getApplicationContext(): Context = myApplicationContext!!
     }
 }

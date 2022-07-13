@@ -3,6 +3,7 @@ package com.anatame.flordia.utils.server.plugins.dns_resolver
 import android.util.Log
 import android.util.Patterns
 import com.anatame.flordia.data.network.AppNetworkClient
+import com.anatame.flordia.utils.customElapsedTime
 import io.github.krlvm.powertunnel.sdk.proxy.DNSRequest
 import io.github.krlvm.powertunnel.sdk.proxy.ProxyAdapter
 import java.net.InetAddress
@@ -14,7 +15,11 @@ class DnsProxyListener: ProxyAdapter(){
         Log.d("resolutionRequest", dnsRequest.host)
         Log.d("cycle", "resolutionRequest")
 
-        val records = AppNetworkClient.getClient().dns.lookup(dnsRequest.host)
+        val records = customElapsedTime("onResolutionRequest") {
+            DnsResolver(dnsRequest.host)
+        }
+
+
         var addr: InetAddress? = null
         records.forEach{
             Log.d("dnsResponse", it.hostAddress?.toString().toString())

@@ -6,9 +6,12 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import androidx.core.os.HandlerCompat.postDelayed
 import com.anatame.flordia.R
 import com.anatame.flordia.databinding.PlayerCustomStubLandscapeBinding
 import com.anatame.flordia.presentation.activities.MainActivity
@@ -48,11 +51,9 @@ class FullScreenDialog(
         setUpControls()
 
         handleGoingFullScreen()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        handleGoingFullScreen()
+        Handler(Looper.getMainLooper()).postDelayed({
+            handleGoingFullScreen()
+        }, 200)
     }
 
 //    override fun onStop() {
@@ -118,7 +119,6 @@ class FullScreenDialog(
 
     fun handleGoingFullScreen() {
         // fullScreenActivity(activity.window!!)
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         this.window?.let {
             fullScreenActivity(it)

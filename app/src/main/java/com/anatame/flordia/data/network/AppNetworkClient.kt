@@ -48,6 +48,7 @@ object AppNetworkClient {
 
         return bootstrapClient.newBuilder()
             .dns(dns)
+            .eventListenerFactory(PrintEventListener.FACTORY)
             .build()
     }
 

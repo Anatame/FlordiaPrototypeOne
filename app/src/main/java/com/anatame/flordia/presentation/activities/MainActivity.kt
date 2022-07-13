@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.anatame.flordia.R
+import com.anatame.flordia.data.network.AppNetworkClient
 import com.anatame.flordia.databinding.ActivityMainBinding
 import com.anatame.flordia.managers.flordia_web_view.WebEngineEventListenerImpl
 import com.anatame.flordia.managers.flordia_web_view.WebEngineRemote
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             webEngineEventListener = listener
         }
 
+        //webEngine.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
         webEngine.loadUrl(BASE_URL_MOVIE + "/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV")
         startTime = System.currentTimeMillis()
 
@@ -120,8 +122,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun showProgress() {
         binding.tvConnecting.visibility = View.INVISIBLE
         binding.progressCircular.visibility = View.VISIBLE
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         webEngine.loadUrl(BASE_URL_MOVIE + url)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.actionbar_mainactivity, menu)
         return true
     }

@@ -39,7 +39,7 @@ object FilterList {
         val movieJsSupportFiles = "js/support_files_movie"
         val moviePlayerMcloudFiles = "js/support_files_movie/player/mcloud"
 
-        offlineFiles.put("https://fmovies.to/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV", "html/movie_search_page.html")
+        //offlineFiles.put("https://fmovies.to/search?keyword=moon+knight&vrf=%2FmTFtmbuaDGqr4RtKYBwD%2BIV", "html/movie_search_page.html")
         offlineFiles.put("https://fmovies.to/sw.js", "$movieJsSupportFiles/sw.js")
         offlineFiles.put("https://fmovies.to/ajax/user/panel", "$movieJsSupportFiles/pannel")
         offlineFiles.put("https://s1.bunnycdn.ru/assets/template_1/min/all.js?62a80feb", "$movieJsSupportFiles/all.js")
